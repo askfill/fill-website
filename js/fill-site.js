@@ -152,11 +152,20 @@
     var row=bar.closest('.tl-r');if(row)row.classList.add('mc-row');
     var arrow=function(c){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2.5 10.6 21l2.7-7.7L21 10.6z" fill="'+c+'" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';};
     var L=document.createElement('div');L.className='mc-layer';L.setAttribute('aria-hidden','true');
-    L.innerHTML='<div class="mc mc-a" style="--c:#5552D8">'+arrow('#5552D8')+'<span>Anna Berg</span></div>'+
-      '<div class="mc mc-b" style="--c:#1E7A43">'+arrow('#1E7A43')+'<span>Johan Lind</span></div>'+
-      '<div class="mc mc-you" style="--c:#C2410C">'+arrow('#C2410C')+'<span>You</span></div>';
+    /* Brand tokens: accent-500, health-good, ink (the CTA colour) for You */
+    L.innerHTML='<div class="mc mc-a" style="--c:#6E6DC6">'+arrow('#6E6DC6')+'<span>Anna Berg</span></div>'+
+      '<div class="mc mc-b" style="--c:#008236">'+arrow('#008236')+'<span>Johan Lind</span></div>'+
+      '<div class="mc mc-you" style="--c:#1C1917">'+arrow('#1C1917')+'<span>You</span></div>';
     cv.appendChild(L);
     var you=L.querySelector('.mc-you');
+    /* The card gets an Extend button that You click; it turns into "Sent for approval" */
+    var tickI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var xb=cc.querySelector('.cc-x');
+    if(!xb){var act=document.createElement('div');act.className='cc-act';act.innerHTML='<span class="cc-x">Extend</span>';cc.appendChild(act);xb=act.firstChild;}
+    function xReset(){xb.classList.remove('press','sent');xb.innerHTML='Extend';}
+    function xSent(){xb.classList.remove('press');xb.classList.add('sent');xb.innerHTML=tickI+'Sent for approval';}
+    function xPos(){var c=cv.getBoundingClientRect(),b=xb.getBoundingClientRect(),k=cv.offsetWidth?c.width/cv.offsetWidth:1;
+      return [Math.round((b.left-c.left+b.width*.45)/k),Math.round((b.top-c.top+b.height*.4)/k)];}
     var fitMc=function(){var k=cv.getBoundingClientRect().width/(cv.offsetWidth||1)||1;L.style.setProperty('--mcs',Math.min(2.4,1/k).toFixed(3));};fitMc();addEventListener('resize',fitMc);
     function at(x,y){you.style.transform='translate('+x+'px,'+y+'px)';}
     function target(){var c=cv.getBoundingClientRect(),b=bar.getBoundingClientRect(),k=cv.offsetWidth?c.width/cv.offsetWidth:1;
@@ -168,16 +177,19 @@
     var run=false,tm=null;
     function later(f,ms){tm=setTimeout(function(){if(run)f();},ms);}
     function loop(){
-      var t=target();at(t[0],t[1]);
+      var t=target();xReset();at(t[0],t[1]);
       later(function(){cv.classList.add('mc-hover');
         later(function(){cv.classList.add('mc-open');
-          later(function(){at(t[0]+40,t[1]+260);cv.classList.remove('mc-hover');
-            later(function(){cv.classList.remove('mc-open');
-              later(function(){at(140,540);later(loop,1800);},900);},700);},3800);},350);},1400);
+          later(function(){var p=xPos();at(p[0],p[1]);cv.classList.remove('mc-hover');
+            later(function(){xb.classList.add('press');
+              later(function(){xSent();
+                later(function(){at(p[0]+60,p[1]+120);
+                  later(function(){cv.classList.remove('mc-open');
+                    later(function(){xReset();at(140,540);later(loop,1800);},900);},700);},2600);},220);},1500);},1700);},350);},1400);
     }
     new IntersectionObserver(function(es){es.forEach(function(e){
       if(e.isIntersecting&&!run){run=true;clearTimeout(tm);later(loop,600);}
-      else if(!e.isIntersecting&&run){run=false;clearTimeout(tm);cv.classList.remove('mc-open','mc-hover');at(120,560);}
+      else if(!e.isIntersecting&&run){run=false;clearTimeout(tm);cv.classList.remove('mc-open','mc-hover');xReset();at(120,560);}
     });},{threshold:.25}).observe(cv);
   }
   /* 5d. /agents: brand tokens on the page; the agent built in the composer = invoice deviation, not timesheet approval */
@@ -324,13 +336,14 @@
     g.innerHTML='<div class="gc-bg"></div><div class="gc-track">'
       +'<div class="gc-card"><div class="gc-k">'+I(spark)+'Ask Fill</div><p class="gc-greet">Good morning, Anna. What do you need?</p><div class="gc-in"><span class="gc-q"></span><span class="gc-car"></span><span class="gc-send">'+I(up)+'</span></div><div class="gc-chips"><span class="gc-chip">Hire a consultant</span><span class="gc-chip">Extend an assignment</span><span class="gc-chip">Check a rate</span></div></div>'
       +'<div class="gc-card"><div class="gc-h">'+I(file)+'Request drafted<small>Draft</small></div><div class="gc-sub">Written from your sentence. Edit anything before it goes out.</div><div class="gc-kv">'+kv.map(function(r){return '<span>'+r[0]+'</span><b>'+r[1]+'</b>';}).join('')+'</div></div>'
-      +'<div class="gc-card"><div class="gc-h">'+I(bld)+'Suppliers</div><div class="gc-sub">Fill picked 3 who placed this role before</div>'+sup.map(function(s){return '<div class="gc-r"><span class="gc-cb">'+I(tick)+'</span><span><b style="font-weight:600">'+s[0]+'</b> <small>· '+s[1]+'</small></span><small>'+s[2]+'</small></div>';}).join('')+'<div class="gc-act"><span class="gc-btn">'+I(send)+'<span>Send to 3 suppliers</span></span></div></div>'
+      +'<div class="gc-card"><div class="gc-h">'+I(bld)+'Suppliers</div><div class="gc-sub">Fill picked 3 who placed this role before</div>'+sup.map(function(s){return '<div class="gc-r"><span class="gc-cb">'+I(tick)+'</span><span><b style="font-weight:600">'+s[0]+'</b> <small>· '+s[1]+'</small></span><small>'+s[2]+'</small></div>';}).join('')+'<div class="gc-act"><span class="gc-btn">'+I(send)+'<span>Send for approval</span></span></div></div>'
+      +'<div class="gc-card gc-done"><span class="gc-ok">'+I(tick)+'</span><b>All done</b><span>Sent for internal approval</span><small>Knowit, Sigma IT and Acando get the request once it is approved.</small></div>'
       +'<div class="gc-card gc-sk"><i class="h"></i><i class="w9"></i><i class="w7"></i><i class="w8"></i><i class="w5"></i><i class="b"></i></div>'
-      +'</div><div class="gc-dots"><i></i><i></i><i></i></div>';
+      +'</div><div class="gc-dots"><i></i><i></i><i></i><i></i></div>';
     pn.appendChild(g);pn.classList.add('gc-on');
     var cards=[].slice.call(g.querySelectorAll('.gc-card:not(.gc-sk)')),sk=g.querySelector('.gc-sk'),dots=[].slice.call(g.querySelectorAll('.gc-dots i')),q=g.querySelector('.gc-q'),sendB=g.querySelector('.gc-send'),bs=[].slice.call(g.querySelectorAll('.gc-kv b')),rows=[].slice.call(g.querySelectorAll('.gc-r')),btn=g.querySelector('.gc-btn');
     function go(i){cards.forEach(function(c,j){c.setAttribute('data-o',j===i?0:1);});sk.setAttribute('data-o',i<0?0:1);if(i>=0)dots.forEach(function(d,j){d.classList.toggle('on',j===i);});}
-    function reset(){q.textContent='';bs.forEach(function(b){b.classList.remove('on');});rows.forEach(function(r){r.classList.remove('on');});btn.innerHTML=I(send)+'<span>Send to 3 suppliers</span>';go(0);}
+    function reset(){q.textContent='';bs.forEach(function(b){b.classList.remove('on');});rows.forEach(function(r){r.classList.remove('on');});btn.innerHTML=I(send)+'<span>Send for approval</span>';go(0);}
     function final(){q.textContent=Q;bs.forEach(function(b){b.classList.add('on');});rows.forEach(function(r){r.classList.add('on');});go(0);}
     if(reduce||!('IntersectionObserver' in window)){final();return;}
     reset();
@@ -341,8 +354,9 @@
       t+=2100;bs.forEach(function(b,i){at(t+i*230,function(){b.classList.add('on');});});
       t+=bs.length*230+1300;at(t,function(){go(-1);});at(t+900,function(){go(2);dots.forEach(function(d,j){d.classList.toggle('on',j===2);});});
       t+=1500;rows.forEach(function(r,i){at(t+i*550,function(){r.classList.add('on');});});
-      t+=rows.length*550+500;at(t,function(){btn.classList.add('press');});at(t+300,function(){btn.classList.remove('press');btn.innerHTML=I(tick)+'<span>Sent to 3 suppliers</span>';});
-      at(t+3200,cycle);}
+      t+=rows.length*550+500;at(t,function(){btn.classList.add('press');});at(t+300,function(){btn.classList.remove('press');});
+      at(t+700,function(){go(3);});
+      at(t+4400,cycle);}
     new IntersectionObserver(function(es){es.forEach(function(e){
       if(e.isIntersecting&&!run){run=true;cycle();}
       else if(!e.isIntersecting&&run){run=false;clear();reset();}
