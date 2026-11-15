@@ -523,14 +523,50 @@
     var auto=g.classList.contains('pl-auto');
     if(!auto||reduce||!gc.anim||!('IntersectionObserver' in window)){rc.all();return;}
     var items=[].slice.call(g.querySelectorAll('.pl-i')),views=[].slice.call(g.querySelectorAll('.pl-v')),cur=0,tm=null,seen=false;
-    function play(k){if(k===0){gc.stop();gc.start();}else gc.stop();if(k===5)rc.run();else rc.stop();}
+    var P=plPlayers(views);
+    function play(k){if(k===0){gc.stop();gc.start();}else gc.stop();if(k===5)rc.run();else rc.stop();P.forEach(function(p,j){if(!p)return;if(j===k)p.run();else p.stop();});}
     function dwell(k){return k===0?Math.max(5500,gc.len()+2800):k===5?7000:5500;}
     function show(n){cur=(n+items.length)%items.length;items.forEach(function(a,k){a.classList.toggle('is-on',k===cur);});views.forEach(function(v,k){v.classList.toggle('is-on',k===cur);});play(cur);}
     function sched(){clearTimeout(tm);tm=setTimeout(function(){if(!g.matches(':hover'))show(cur+1);sched();},dwell(cur));}
-    function halt(){clearTimeout(tm);tm=null;gc.stop();rc.stop();}
+    function halt(){clearTimeout(tm);tm=null;gc.stop();rc.stop();P.forEach(function(p){if(p)p.stop();});}
     items.forEach(function(a,k){a.addEventListener('mouseenter',function(){if(cur!==k){show(k);sched();}});});
     g.addEventListener('mouseleave',function(){show(cur);sched();});
     new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!seen||!tm){seen=true;show(cur);sched();}}else halt();});},{threshold:.35}).observe(g);
+  }
+  /* /product one-list: every picture moves when shown (his standing rule). Shortlist rows and must-haves fill in; the contract is checked row by row and Acando is asked to correct the rate;
+     the extension is sent for approval; invoices are matched one by one. Each player resets when hidden and replays when shown. */
+  function plPlayers(views){
+    var Q=function(v,s){return [].slice.call(v.querySelectorAll(s));},P=[];
+    var tick='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+    function mk(v,prep,steps){v.classList.add('pl-anim');var tm=[];prep();
+      return {run:function(){tm.forEach(clearTimeout);tm=[];prep();var t=0;steps.forEach(function(s){t+=s[0];tm.push(setTimeout(s[1],t));});},
+        stop:function(){tm.forEach(clearTimeout);tm=[];prep();}};}
+    function on(e){e.classList.add('on');}
+    function px(list,pop){list.forEach(function(e){e.classList.add('px');if(pop)e.classList.add('pxp');});}
+    var v1=views[1];if(v1&&v1.querySelector('.sl')){
+      var rows=Q(v1,'.sl-r:not(.sl-hd)'),pill=v1.querySelector('.pn-h .pill'),st=[];px(rows);if(pill)px([pill],1);
+      rows.forEach(function(r,i){st.push([i?650:450,function(){on(r);}]);Q(r,'.mh i:not(.no)').forEach(function(d){st.push([110,function(){on(d);}]);});});
+      if(pill)st.push([350,function(){on(pill);}]);
+      P[1]=mk(v1,function(){rows.concat(pill?[pill]:[]).forEach(function(e){e.classList.remove('on');});Q(v1,'.mh i').forEach(function(d){d.classList.remove('on');});},st);}
+    var v2=views[2];if(v2&&v2.querySelector('.cmp')){
+      var cr=Q(v2,'.cmp-r:not(.cmp-hd)'),marks=Q(v2,'.cmp-r:not(.cmp-hd)>:last-child'),b2=v2.querySelector('.cmp-act .cb.ink'),bad=v2.querySelector('.cmp-r.bad'),t2=b2?b2.textContent:'',s2=[];
+      if(bad)bad.classList.add('pl-bad');px(cr);px(marks,1);
+      cr.forEach(function(r,i){s2.push([i?300:400,function(){on(r);}]);});
+      marks.forEach(function(m){s2.push([380,function(){on(m);var r=m.parentNode;if(r.classList.contains('pl-bad'))r.classList.add('bad');}]);});
+      if(b2){s2.push([900,function(){b2.classList.add('press');}]);s2.push([240,function(){b2.classList.remove('press');b2.classList.add('sent');b2.innerHTML=tick+'Sent to Acando';}]);}
+      P[2]=mk(v2,function(){cr.concat(marks).forEach(function(e){e.classList.remove('on');});if(bad)bad.classList.remove('bad');if(b2){b2.classList.remove('press','sent');b2.textContent=t2;}},s2);}
+    var v3=views[3];if(v3&&v3.querySelector('.ext')){
+      var kv=Q(v3,'.kv>div'),dec=v3.querySelector('.dec'),b3=dec&&dec.querySelector('.cb.ink'),p3=v3.querySelector('.pn-h .pill'),t3=b3?b3.textContent:'',pt=p3?p3.textContent:'',s3=[];
+      px(kv);if(dec)px([dec]);
+      kv.forEach(function(r,i){s3.push([i?260:400,function(){on(r);}]);});
+      if(dec)s3.push([350,function(){on(dec);}]);
+      if(b3){s3.push([1000,function(){b3.classList.add('press');}]);s3.push([240,function(){b3.classList.remove('press');b3.classList.add('sent');b3.innerHTML=tick+'Sent for approval';if(p3)p3.textContent='Waiting for approval';}]);}
+      P[3]=mk(v3,function(){kv.concat(dec?[dec]:[]).forEach(function(e){e.classList.remove('on');});if(b3){b3.classList.remove('press','sent');b3.textContent=t3;}if(p3)p3.textContent=pt;},s3);}
+    var v4=views[4];if(v4&&v4.querySelector('.inv')){
+      var ir=Q(v4,'.inv-r:not(.inv-hd)'),ok=Q(v4,'.inv-r .okp'),s4=[];px(ir);px(ok,1);
+      ir.forEach(function(r,i){s4.push([i?550:400,function(){on(r);}]);var o=r.querySelector('.okp');if(o)s4.push([450,function(){on(o);}]);});
+      P[4]=mk(v4,function(){ir.concat(ok).forEach(function(e){e.classList.remove('on');});},s4);}
+    return P;
   }
   /* Name the footer logo link for screen readers. Mark the nav as scrolled past the top on every page. Pages with their own frosted or dark scrolled nav (home, Source, Control, Agents) style .hv-scrolled; elsewhere the class does nothing. */
   function navScrolled(){
