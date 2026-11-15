@@ -412,4 +412,4 @@ html body:has(.nav-v2.is-open) .cc-revoke{opacity:0!important;pointer-events:non
 /* Podcast episode pages: "Episode summary" and "Episode transcript" are now h2 (one h1 per page); keep the spacing they had as h1. */
 h2.heading-206{line-height:1.22;margin-bottom:28px}
 /* Podcast list: episode titles are now h2 ("All episodes" is the page's one h1); keep the look they had as h1. */
-h2.heading-205{font-family:"DM Sans",sans-serif;font-size:18px;line-height:1.22;font-weight:400;letter-spacing:-1px;margin-top:10px;margin-bottom:40px}
+html body h2.heading-205.heading-205{font-family:"DM Sans",sans-serif!important;font-size:18px!important;line-height:1.22!important;font-weight:400!important;letter-spacing:-1px!important;margin-top:10px!important;margin-bottom:40px!important}
