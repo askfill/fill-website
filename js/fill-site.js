@@ -568,6 +568,23 @@
       P[4]=mk(v4,function(){ir.concat(ok).forEach(function(e){e.classList.remove('on');});},s4);}
     return P;
   }
+  /* Compare pages: the pictures move (standing rule). "Why every enterprise needs a VMS" cycles its four pins; the three cards tick the RFP steps on,
+     bring the consultants in and grow the spend bars, then replay. Runs only while in view. */
+  function cmpMotion(){
+    if(reduce||!('IntersectionObserver' in window))return;
+    function watch(el,start,stop){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)start();else stop();});},{threshold:.3}).observe(el);}
+    document.querySelectorAll('.cmp-twocol-figure').forEach(function(f){if(f.__m)return;f.__m=1;
+      var pins=[].slice.call(f.querySelectorAll('.cmp-twocol-pin'));if(pins.length<2)return;var i=Math.max(0,pins.findIndex(function(p){return p.classList.contains('cmp-twocol-pin-active');})),iv=null;
+      function step(){pins.forEach(function(p,j){p.classList.toggle('cmp-twocol-pin-active',j===i);});i=(i+1)%pins.length;}
+      watch(f,function(){if(!iv){step();iv=setInterval(step,1900);}},function(){clearInterval(iv);iv=null;});});
+    document.querySelectorAll('.cmp-card-mock').forEach(function(m){if(m.__m)return;m.__m=1;
+      var its=[].slice.call(m.querySelectorAll('.cmp-card-line,.cmp-card-row,.cmp-card-bar'));if(!its.length)return;m.classList.add('cmpx');
+      var tm=[],run=false;function clear(){tm.forEach(clearTimeout);tm=[];}
+      function cycle(){clear();its.forEach(function(e){e.classList.remove('on');});
+        its.forEach(function(e,k){tm.push(setTimeout(function(){e.classList.add('on');},350+k*(e.classList.contains('cmp-card-bar')?160:420)));});
+        tm.push(setTimeout(function(){if(run)cycle();},350+its.length*420+3600));}
+      watch(m,function(){if(!run){run=true;cycle();}},function(){run=false;clear();its.forEach(function(e){e.classList.add('on');});});});
+  }
   /* Name the footer logo link for screen readers. Mark the nav as scrolled past the top on every page. Pages with their own frosted or dark scrolled nav (home, Source, Control, Agents) style .hv-scrolled; elsewhere the class does nothing. */
   function navScrolled(){
     document.querySelectorAll('a.f-footer-logo').forEach(function(a){if(!a.getAttribute('aria-label')&&!a.textContent.trim())a.setAttribute('aria-label','Fill home');});
@@ -599,5 +616,5 @@
     var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
     var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
