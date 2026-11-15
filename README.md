@@ -45,6 +45,10 @@ The site's own head and footer code (consent, trackers, cookie banner, Intercom)
 
 Apply the previous versions of the two scripts again and publish. Every commit stays in this repo's history, and jsDelivr keeps serving old commits.
 
+## llms.txt
+
+`llms.txt` is the summary that AI assistants read about fill.work. Webflow serves it, but only Enterprise plans can change it through the API, so after editing this copy, paste it into Webflow (Site settings > SEO) and publish. Keep every link pointing at a live page.
+
 ## Rules
 
 - Prefix every new class. A short bare class name once collided with a Webflow class and hid a customer story.

@@ -496,5 +496,14 @@
       var img=co.querySelector('img'),n=(img&&img.alt)||co.textContent.trim();
       for(var i=0;i<M.length;i++){if(M[i][0].test(n)){var a=document.createElement('a');a.className='tms-go';a.href=M[i][1];a.setAttribute('aria-label','Read the '+n+' story');c.appendChild(a);c.classList.add('tms-lk');return;}}});
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  /* Footer: "Ask your AI about Fill" opens the visitor's own assistant with a prompt that points it at fill.work. */
+  function askAi(){
+    var grid=document.querySelector('.f-footer-regular .f-footer-grid');if(!grid||document.querySelector('.fx-askai'))return;
+    var q=encodeURIComponent('Explain what Fill (fill.work) does, its main products, and who it is for. Use https://www.fill.work as the source and link to the relevant pages.');
+    var L=[['ChatGPT','https://chatgpt.com/?q='+q],['Claude','https://claude.ai/new?q='+q],['Perplexity','https://www.perplexity.ai/search/new?q='+q],['Gemini','https://www.google.com/search?udm=50&q='+q]];
+    var d=document.createElement('div');d.className='fx-askai';
+    d.innerHTML='<span class="fx-askai-l">Ask your AI about Fill</span>'+L.map(function(x){return '<a class="fx-askai-a" href="'+x[1]+'" target="_blank" rel="noopener" aria-label="Get an AI summary of Fill in '+x[0]+'">'+x[0]+'</a>';}).join('');
+    grid.parentNode.insertBefore(d,grid.nextSibling);
+  }
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();

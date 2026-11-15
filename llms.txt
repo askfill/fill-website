@@ -1,0 +1,84 @@
+# Fill
+
+> Fill is an AI-native procurement and vendor management system (VMS) for the consultant and contingent workforce. European enterprises use it to source consultants, run RFPs against their own approved suppliers, govern every external worker in one record, and reconcile every cost — replacing spreadsheets, legacy VMS tools and MSP intermediaries.
+
+Fill Technology AB is headquartered in Stockholm, Sweden, and sells to enterprises and mid-sized companies, primarily in the Nordics and Europe. The platform covers the full external-work lifecycle in one system: intake, sourcing and RFP, candidate comparison, contracting and e-signature, onboarding and compliance, time and invoice reconciliation, and spend analytics.
+
+Four buyer-side audiences use Fill — procurement, finance, HR, and hiring managers — alongside a supplier portal for the agencies, consultancies and freelancers they buy from. AI agents draft intake briefs, run RFPs, benchmark rates, track renewals, reconcile invoices and check compliance; every agent action is written to the record, and a human approves before anything moves.
+
+Fill is EU-native: EU data residency, GDPR posture, ISO 27001 readiness, and alignment with the EU AI Act and the EU Platform Work Directive. Customer data is not used to train models. Pricing is a flat platform fee with a free marketplace tier — not a percentage markup on contract value.
+
+Category and alternatives: Fill is used as an alternative to SAP Fieldglass, Beeline, and traditional Managed Service Providers (MSPs). Fill describes its own category as "consultant orchestration".
+
+## Product
+
+- [Fill homepage](https://www.fill.work): The AI procurement system for your consultant workforce — source consultants, manage every worker, reconcile every cost.
+- [Product overview](https://www.fill.work/product): One record per consultant, from brief to invoice — sourcing, rate benchmarking, approvals, contracts and reconciliation in a single platform.
+- [Source](https://www.fill.work/source): Describe the need in a sentence; Fill writes the request, sends it to the suppliers who fit, and lets you compare candidates on what you asked for.
+- [Control](https://www.fill.work/control): Every contract checked against the request, every rate against your history, extensions decided on time, and one register of every consultant.
+- [Automate — AI agents](https://www.fill.work/agents): The six agents (intake, shortlist, rate, renewal, invoice, compliance), what each automates, and where a human approval is required.
+- [Integrations](https://www.fill.work/integrations): Connections to Workday, SAP, Personio, Microsoft Entra ID, BankID and DocuSign so consultant data, approvals and invoices flow through existing systems.
+- [Security](https://www.fill.work/security): EU data residency, encryption in transit and at rest, granular access control, and no model training on customer data.
+- [Your first 60 days with Fill](https://www.fill.work/60-days-with-fill): Live on day one, in control by day 60 — what onboarding looks like week by week, with no integration project.
+- [Book a demo](https://www.fill.work/book-a-demo): Request a personalised demo of the platform.
+
+## Who Fill is for
+
+- [Procurement](https://www.fill.work/functions/procurement): Visibility over consultant and contingent spend, policy enforcement, vendor management and automated contracts.
+- [Finance](https://www.fill.work/functions/finance): Real-time consultant and contractor cost across the business, accruals and committed spend before the invoice arrives.
+- [HR and talent acquisition](https://www.fill.work/functions/hrandta): One system for the external workforce lifecycle — onboarding, compliance and offboarding.
+- [Hiring managers](https://www.fill.work/functions/hiring-managers): Request, compare and onboard consultants without learning a procurement form; 98% hiring-manager adoption once rolled out.
+- [Enterprises](https://www.fill.work/size/enterprises): Enterprise VMS with procurement integration, compliance automation and spend analytics across global teams.
+- [Mid-sized companies](https://www.fill.work/size/midsize): Centralised visibility, automation and compliance past the ~30-consultant point where spreadsheets break, without enterprise-VMS complexity.
+- [Partners and suppliers](https://www.fill.work/partners/partners): How agencies, consultancies and freelancers work with Fill's buyer network.
+
+## Category and comparisons
+
+- [What is a VMS?](https://www.fill.work/compare/what-is-a-vms): How a vendor management system sources, manages and pays contingent workers, and how a modern VMS replaces spreadsheets and legacy tools.
+- [Fill vs MSP](https://www.fill.work/compare/msp-alternative): Direct vendor relationships and transparent platform pricing versus MSP markups and account-manager gatekeeping.
+- [Fill vs SAP Fieldglass](https://www.fill.work/compare/sap-fieldglass-alternative): Faster implementation and purpose-built consultant management as a Fieldglass alternative.
+- [Fill vs Beeline](https://www.fill.work/compare/beeline-alternative): Setup speed, adoption and European-first compliance compared with Beeline.
+- [What is consultant orchestration?](https://www.fill.work/post/what-is-consultant-orchestration): The category Fill defines for itself, and how it differs from VMS and MSP.
+- [VMS vs MSP: which do you need?](https://www.fill.work/post/vms-vs-msp): The practical decision between running a system yourself and outsourcing to a managed provider.
+- [VMS vs MSP: what you actually give up](https://www.fill.work/post/vms-vs-msp-what-you-actually-give-up): The control, data and margin trade-offs of an MSP arrangement.
+- [What to ask a VMS vendor before you sign](https://www.fill.work/post/what-to-ask-a-vms-vendor-before-you-sign): A buyer's due-diligence checklist for VMS selection.
+- [Choosing a SAP Fieldglass alternative](https://www.fill.work/post/fieldglass-alternative): A buyer's guide to evaluating replacements for Fieldglass.
+- [What an AI-native VMS actually automates](https://www.fill.work/post/what-an-ai-native-vms-actually-automates): Which parts of the consultant lifecycle AI can take over, and which still need a human.
+
+## Customer evidence
+
+- [Customer case studies](https://www.fill.work/customers): How enterprise procurement, HR and finance teams run their external workforce on Fill.
+- [Söderberg & Partners](https://www.fill.work/customers/soderberg-partners): Replacing spreadsheet-based consultant tracking with one system for sourcing, engagement and spend visibility.
+- [Green Cargo](https://www.fill.work/customers/green-cargo): Consultant procurement rebuilt in under eight weeks: 98% of agreements completed on time and 10–15% savings on competitively sourced assignments.
+- [SSAB](https://www.fill.work/customers/ssab): Consultant procurement rebuilt in about five weeks, with 5–15% direct savings and a full-time procurement workload reduced to a fraction.
+- [NOBA Bank](https://www.fill.work/noba-bank): One record per consultant, enforced approval policy, and reconciled costs across the business.
+
+## Guides on consultant spend and compliance
+
+- [Consultant rate benchmarking](https://www.fill.work/post/consultant-rate-benchmarking): How to tell whether you are overpaying for a consultant, and what to benchmark against.
+- [How to reduce consultant costs](https://www.fill.work/post/reduce-consultant-costs): Seven levers that measurably lower consultant spend.
+- [Tail spend in consulting](https://www.fill.work/post/tail-spend-consulting): The long tail of low-volume suppliers and the costs it hides.
+- [The SOW management guide](https://www.fill.work/post/sow-management-guide): From statement of work through delivery to a reconciled invoice.
+- [The real cost of managing consultants in spreadsheets](https://www.fill.work/post/consultants-in-spreadsheets): What breaks when the consultant register lives in Excel.
+- [When spreadsheets stop working](https://www.fill.work/post/when-spreadsheets-stop-working-contingent-workforce): The scale at which manual contingent-workforce tracking fails.
+- [CSRD and your external workforce](https://www.fill.work/post/csrd-external-workforce): What the EU sustainability reporting directive requires procurement to know about external workers.
+- [The Swedish law on temporary agency workers](https://www.fill.work/post/navigating-the-new-swedish-law-on-temporary-agency-workers-what-it-means-for-your-business-in-2024): Compliance implications of Sweden's temporary agency worker legislation.
+- [The role of procurement in contingent workforce management](https://www.fill.work/post/the-vital-role-of-procurement-in-contingent-workforce-management): Why procurement owns the external workforce problem.
+- [External workforce and services software: a guide](https://www.fill.work/post/understanding-external-workforce-and-services-software-a-comprehensive-guide): An overview of the software landscape for external work.
+- [Konsulthantering (Swedish)](https://www.fill.work/post/konsulthantering): Så får du kontroll på konsultkostnaderna — consultant cost control, in Swedish.
+
+## Company
+
+- [About Fill](https://www.fill.work/about): The team building the vendor management system for consultant and contingent workforces.
+- [Careers](https://www.fill.work/careersatfill): Open roles at Fill in Stockholm.
+- [Insights blog](https://www.fill.work/insights/blog): Articles on hiring, procurement and the external workforce.
+- [Changelog](https://www.fill.work/insights/changelog): Every release, fix and improvement to the platform, newest first.
+- [Podcast](https://www.fill.work/insights/podcast): Conversations with procurement, HR and finance leaders on running an external workforce.
+
+## Optional
+
+- [Privacy policy](https://www.fill.work/privacy): How Fill processes personal data.
+- [Cookie policy](https://www.fill.work/cookies): Cookie usage on fill.work.
+- [User access agreement](https://www.fill.work/fill-user-access-agreement): Terms governing platform access.
+- [Allmänna villkor (Swedish)](https://www.fill.work/allmanna-villkor): General terms and conditions, in Swedish.
+- [Whistleblowing policy](https://www.fill.work/bano-policy): Fill's reporting and whistleblowing policy.
