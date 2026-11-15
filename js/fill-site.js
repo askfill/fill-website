@@ -488,5 +488,12 @@
     function upd(){nav.classList.toggle('hv-scrolled',(window.pageYOffset||0)>24);tick=false;}
     addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  /* Customer quote cards open that customer's story. Matched on the logo, so new cards without a story page stay as they are. */
+  function tmsLinks(){
+    var M=[[/green\s*cargo/i,'/customers/green-cargo'],[/s(ö|o)derberg/i,'/customers/soderberg-partners'],[/noba/i,'/noba-bank'],[/ssab/i,'/customers/ssab']];
+    document.querySelectorAll('.tms-card').forEach(function(c){if(c.querySelector('.tms-go'))return;var co=c.querySelector('.tms-co');if(!co)return;
+      var img=co.querySelector('img'),n=(img&&img.alt)||co.textContent.trim();
+      for(var i=0;i<M.length;i++){if(M[i][0].test(n)){var a=document.createElement('a');a.className='tms-go';a.href=M[i][1];a.setAttribute('aria-label','Read the '+n+' story');c.appendChild(a);c.classList.add('tms-lk');return;}}});
+  }
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
