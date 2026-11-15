@@ -415,10 +415,12 @@ h2.heading-206{line-height:1.22;margin-bottom:28px}
 html body h2.heading-205.heading-205{font-family:"DM Sans",sans-serif!important;font-size:18px!important;line-height:1.22!important;font-weight:400!important;letter-spacing:-1px!important;margin-top:10px!important;margin-bottom:40px!important}
 /* Footer: links whose text sits in an inner div were painted pure white by the footer cloud rule, so half the links looked brighter and lost their hover. Every footer link now takes the link's own colour. */
 html body .f-footer-link.on-dark *{color:inherit!important}
-/* Footer: "Ask your AI about Fill" row under the link columns, in the footer's own link tone. */
-.fx-askai{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:40px 0 0;font-family:"DM Sans",system-ui,sans-serif}
-.fx-askai-l{font-size:14px;line-height:24px;color:rgba(255,255,255,.66);margin-right:6px}
-html body .fx-askai a.fx-askai-a{font-size:13px;line-height:20px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.82);text-decoration:none;transition:border-color .2s ease,color .2s ease,background-color .2s ease}
+/* Footer: "Ask your AI about Fill" row under the link columns: small round logo buttons in the footer's own link tone. */
+.fx-askai{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:40px 0 0;font-family:"DM Sans",system-ui,sans-serif}
+.fx-askai-l{font-size:14px;line-height:24px;color:rgba(255,255,255,.66)}
+.fx-askai-row{display:flex;gap:8px}
+html body .fx-askai a.fx-askai-a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.82);text-decoration:none;transition:border-color .2s ease,color .2s ease,background-color .2s ease}
+html body .fx-askai a.fx-askai-a svg{width:17px;height:17px;display:block}
 html body .fx-askai a.fx-askai-a:hover{color:#fff;border-color:rgba(255,255,255,.5);background-color:rgba(255,255,255,.06)}
 html body .fx-askai a.fx-askai-a:focus-visible{outline:2px solid #fff;outline-offset:2px}
-@media (max-width:767px){.fx-askai{margin-top:28px}.fx-askai-l{width:100%}}
+@media (max-width:767px){.fx-askai{margin-top:28px}.fx-askai-l{width:100%}html body .fx-askai a.fx-askai-a{width:44px;height:44px}html body .fx-askai a.fx-askai-a svg{width:19px;height:19px}}
