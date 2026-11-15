@@ -1,4 +1,4 @@
-# fill-website-code
+# fill-website
 
 CSS and JavaScript layered on top of the fill.work Webflow site: glass frames, hero motion, customer logos, agent rule cards and the other polish passes.
 
@@ -13,25 +13,37 @@ The heading type scale is not in here. It lives in its own embed in the Webflow 
 
 ## How the site loads it
 
-Webflow loads both files from this repo through jsDelivr, pinned to a version tag. They are two registered site scripts (Webflow > Site settings > Custom code > Scripts):
+Webflow loads both files from this repo through jsDelivr, pinned to one commit and checked with an integrity hash. A commit ID always points to the same files, and the browser refuses a file whose hash does not match, so nothing can change on the live site without a new Webflow publish.
+
+They are two registered site scripts (Webflow > Site settings > Custom code > Scripts):
 
 | Script | Where | What it does |
 |---|---|---|
-| `fill site css` | Head | A tiny loader that adds `https://cdn.jsdelivr.net/gh/KFR8312/fill-website-code@vNN/css/fill-site.css` as a normal stylesheet, so the page renders with it from the start |
-| `fill site js` | Footer | Loads `https://cdn.jsdelivr.net/gh/KFR8312/fill-website-code@vNN/js/fill-site.js` with an integrity hash, so the browser refuses a file that does not match |
+| `fill site css` | Head | A tiny loader that adds the stylesheet below, so the page renders with it from the start |
+| `fill site js` | Footer | Loads the script below |
+
+What they add to the page:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/askfill/fill-website@COMMIT-ID/css/fill-site.css" integrity="sha384-HASH-OF-THE-CSS-FILE" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/gh/askfill/fill-website@COMMIT-ID/js/fill-site.js" integrity="sha384-HASH-OF-THE-JS-FILE" crossorigin="anonymous" defer></script>
+```
 
 The site's own head and footer code (consent, trackers, cookie banner, Intercom) is separate and untouched.
 
 ## Making a change
 
 1. Edit the files and test on the Webflow staging site.
-2. Commit, then tag the commit with the next version (`v23`, `v24` ...) and push the tag.
-3. Register new versions of the two Webflow scripts with the new tag in the URLs. The JS needs its new integrity hash: `echo "sha384-$(openssl dgst -sha384 -binary js/fill-site.js | openssl base64 -A)"`.
-4. Apply the new versions, remove the old ones, publish staging, test, then publish the live site.
+2. Commit and push. Optionally tag the commit (`v24`, `v25` ...) as a readable name; Webflow does not use the tag.
+3. Take the full commit ID (`git rev-parse HEAD`) and the two hashes:
+   - `echo "sha384-$(openssl dgst -sha384 -binary css/fill-site.css | openssl base64 -A)"`
+   - `echo "sha384-$(openssl dgst -sha384 -binary js/fill-site.js | openssl base64 -A)"`
+4. Register new versions of the two Webflow scripts with that commit ID and those hashes. Claude can write the finished lines from the commit ID.
+5. Apply the new versions, remove the old ones, publish staging, test, then publish the live site.
 
 ## Undo
 
-Apply the previous versions of the two scripts again and publish. Every version stays in this repo's history, and jsDelivr keeps serving old tags.
+Apply the previous versions of the two scripts again and publish. Every commit stays in this repo's history, and jsDelivr keeps serving old commits.
 
 ## Rules
 
