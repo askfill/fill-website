@@ -327,6 +327,11 @@
   /* Pass 14: Home ch1 = a liquid glass carousel instead of the whole platform. Composer first, then the request is drafted, then suppliers are picked and the request is sent. */
   function glassCarousel(){
     var pn=document.querySelector('#ch1 .chp-panel');if(!pn||pn.querySelector('.gc-wrap'))return;
+    var gc=gcBuild(pn);pn.classList.add('gc-on');if(!gc.anim)return;
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)gc.start();else gc.stop();});},{threshold:.35}).observe(pn);
+  }
+  /* The request carousel itself (Ask Fill -> Request drafted -> Suppliers -> All done), built into any positioned box. Home ch1 and /product use it. */
+  function gcBuild(pn){
     var spark='<path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/>';
     var file='<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>';
     var bld='<path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>';
@@ -342,14 +347,14 @@
       +'<div class="gc-card gc-done"><span class="gc-ok">'+I(tick)+'</span><b>All done</b><span>Sent for internal approval</span><small>Knowit, Sigma IT and Acando get the request once it is approved.</small></div>'
       +'<div class="gc-card gc-sk"><i class="h"></i><i class="w9"></i><i class="w7"></i><i class="w8"></i><i class="w5"></i><i class="b"></i></div>'
       +'</div><div class="gc-dots"><i></i><i></i><i></i><i></i></div>';
-    pn.appendChild(g);pn.classList.add('gc-on');
+    pn.appendChild(g);
     var cards=[].slice.call(g.querySelectorAll('.gc-card:not(.gc-sk)')),sk=g.querySelector('.gc-sk'),dots=[].slice.call(g.querySelectorAll('.gc-dots i')),q=g.querySelector('.gc-q'),sendB=g.querySelector('.gc-send'),bs=[].slice.call(g.querySelectorAll('.gc-kv b')),rows=[].slice.call(g.querySelectorAll('.gc-r')),btn=g.querySelector('.gc-btn');
     function go(i){cards.forEach(function(c,j){c.setAttribute('data-o',j===i?0:1);});sk.setAttribute('data-o',i<0?0:1);if(i>=0)dots.forEach(function(d,j){d.classList.toggle('on',j===i);});}
     function reset(){q.textContent='';bs.forEach(function(b){b.classList.remove('on');});rows.forEach(function(r){r.classList.remove('on');});btn.innerHTML=I(send)+'<span>Send for approval</span>';go(0);}
     function final(){q.textContent=Q;bs.forEach(function(b){b.classList.add('on');});rows.forEach(function(r){r.classList.add('on');});go(0);}
-    if(reduce||!('IntersectionObserver' in window)){final();return;}
+    if(reduce||!('IntersectionObserver' in window)){final();return {anim:false,start:function(){},stop:function(){},len:function(){return 0;}};}
     reset();
-    var run=false,tm=[];function at(ms,f){tm.push(setTimeout(function(){if(run)f();},ms));}function clear(){tm.forEach(clearTimeout);tm=[];}
+    var run=false,tm=[],LEN=0;function at(ms,f){tm.push(setTimeout(function(){if(run)f();},ms));}function clear(){tm.forEach(clearTimeout);tm=[];}
     function cycle(){clear();reset();var t=500;
       for(var i=1;i<=Q.length;i++){(function(i){at(t,function(){q.textContent=Q.slice(0,i);});})(i);t+=32+(i%7?0:40);}
       at(t+400,function(){sendB.classList.add('press');});at(t+700,function(){sendB.classList.remove('press');go(-1);});at(t+1600,function(){go(1);dots.forEach(function(d,j){d.classList.toggle('on',j===1);});});
@@ -357,12 +362,11 @@
       t+=bs.length*230+1300;at(t,function(){go(-1);});at(t+900,function(){go(2);dots.forEach(function(d,j){d.classList.toggle('on',j===2);});});
       t+=1500;rows.forEach(function(r,i){at(t+i*550,function(){r.classList.add('on');});});
       t+=rows.length*550+500;at(t,function(){btn.classList.add('press');});at(t+300,function(){btn.classList.remove('press');});
-      at(t+700,function(){go(3);});
+      at(t+700,function(){go(3);});LEN=t+700;
       at(t+4400,cycle);}
-    new IntersectionObserver(function(es){es.forEach(function(e){
-      if(e.isIntersecting&&!run){run=true;cycle();}
-      else if(!e.isIntersecting&&run){run=false;clear();reset();}
-    });},{threshold:.35}).observe(pn);
+    return {anim:true,len:function(){return LEN;},
+      start:function(){if(run)return;run=true;cycle();},
+      stop:function(){if(!run)return;run=false;clear();reset();}};
   }
   /* Pass 20: show each customer's logo instead of its name (name kept as alt text). */
   function customerLogos(){
@@ -480,23 +484,51 @@
   function ruleCard(){
     if(!/^\/agents$/.test(location.pathname.replace(/\/+$/,'')))return;
     var agf=document.querySelector('section.agf');if(!agf||document.querySelector('.arb'))return;
+    var s=document.createElement('section');s.className='arb';
+    s.innerHTML='<div class="arb-in"><div><div class="arb-eb">Automate · rules</div><h2>Set the rule once. Agents follow it.</h2><p>Say when an agent should act, in plain words. Fill shows who it reaches before anything runs.</p></div></div>';
+    var rc=arbBuild();s.firstChild.appendChild(rc.el);
+    agf.parentNode.insertBefore(s,agf);
+    if(reduce||!('IntersectionObserver' in window)){rc.all();return;}
+    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){rc.run();o.disconnect();}});},{threshold:.4}).observe(rc.el);
+  }
+  /* The Sana-style rule card (edge beam): conditions appear one by one, the reach counts up, Confirm is pressed. /agents and /product use it. */
+  function arbBuild(){
     var zap='<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>';
     var plus='<path d="M5 12h14"/><path d="M12 5v14"/>';
-    var s=document.createElement('section');s.className='arb';
-    s.innerHTML='<div class="arb-in"><div><div class="arb-eb">Automate · rules</div><h2>Set the rule once. Agents follow it.</h2><p>Say when an agent should act, in plain words. Fill shows who it reaches before anything runs.</p></div>'
-      +'<div class="arb-card" aria-hidden="true"><div class="arb-hd">'+I(zap)+'New agent rule</div>'
+    var c=document.createElement('div');c.className='arb-card';c.setAttribute('aria-hidden','true');
+    c.innerHTML='<div class="arb-hd">'+I(zap)+'New agent rule</div>'
       +'<div class="arb-conds"><span class="arb-chip">Invoice <i>is</i> 10 % off hours</span><span class="arb-and">and</span><span class="arb-chip">Amount <i>is</i> over 50 000 SEK</span><span class="arb-and">and</span><span class="arb-chip">Supplier <i>is</i> any</span><span class="arb-plus">'+I(plus)+'</span></div>'
       +'<div class="arb-who"><span class="arb-av"><span style="background:#1F3B57">AB</span><span style="background:#3F6B50">JL</span><span style="background:#8A3B5C">MF</span></span><span><b>Anna Berg, Johan Lind</b> and <b class="arb-n">14</b> other managers will be reminded</span></div>'
-      +'<div class="arb-act"><span class="arb-b">Discard</span><span class="arb-b ink">Confirm</span></div></div></div>';
-    agf.parentNode.insertBefore(s,agf);
-    var seq=[].slice.call(s.querySelectorAll('.arb-chip,.arb-and,.arb-plus')),who=s.querySelector('.arb-who'),act=s.querySelector('.arb-act'),ok=s.querySelector('.arb-b.ink'),num=s.querySelector('.arb-n');
-    function all(){seq.forEach(function(e){e.classList.add('on');});who.classList.add('on');act.classList.add('on');}
-    if(reduce||!('IntersectionObserver' in window)){all();return;}
-    var tm=[];function run(){tm.forEach(clearTimeout);tm=[];seq.concat([who,act]).forEach(function(e){e.classList.remove('on');});
+      +'<div class="arb-act"><span class="arb-b">Discard</span><span class="arb-b ink">Confirm</span></div>';
+    var seq=[].slice.call(c.querySelectorAll('.arb-chip,.arb-and,.arb-plus')),who=c.querySelector('.arb-who'),act=c.querySelector('.arb-act'),ok=c.querySelector('.arb-b.ink'),num=c.querySelector('.arb-n');
+    var tm=[],iv=null;
+    function stop(){tm.forEach(clearTimeout);tm=[];if(iv)clearInterval(iv);iv=null;ok.classList.remove('press');}
+    function all(){stop();seq.forEach(function(e){e.classList.add('on');});who.classList.add('on');act.classList.add('on');num.textContent='14';}
+    function run(){stop();seq.concat([who,act]).forEach(function(e){e.classList.remove('on');});num.textContent='0';
       seq.forEach(function(e,i){tm.push(setTimeout(function(){e.classList.add('on');},300+i*260));});
-      var t0=300+seq.length*260+200;tm.push(setTimeout(function(){who.classList.add('on');var v=0;var iv=setInterval(function(){v+=2;num.textContent=Math.min(v,14);if(v>=14)clearInterval(iv);},45);},t0));
+      var t0=300+seq.length*260+200;tm.push(setTimeout(function(){who.classList.add('on');var v=0;iv=setInterval(function(){v+=2;num.textContent=Math.min(v,14);if(v>=14){clearInterval(iv);iv=null;}},45);},t0));
       tm.push(setTimeout(function(){act.classList.add('on');},t0+700));tm.push(setTimeout(function(){ok.classList.add('press');},t0+1500));tm.push(setTimeout(function(){ok.classList.remove('press');},t0+1800));}
-    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){run();o.disconnect();}});},{threshold:.4}).observe(s.querySelector('.arb-card'));
+    return {el:c,run:run,all:all,stop:stop};
+  }
+  /* /product "Everything in Fill, in one list": Request from a sentence shows the home request carousel, Agent log shows the rule card.
+     The page's own auto-cycle switches every 5.5 s, too short for the carousel, so the list is re-mounted and cycled here: each picture stays up as long as its animation. */
+  function productList(){
+    var g0=document.querySelector('.pl-grid');if(!g0||g0.__pl)return;
+    var g=g0.cloneNode(true);g0.parentNode.replaceChild(g,g0);g.__pl=1;
+    var v0=g.querySelector('.pl-v0'),v5=g.querySelector('.pl-v5');if(!v0||!v5)return;
+    v0.classList.add('pl-gc');v0.innerHTML='';var gc=gcBuild(v0);
+    v5.classList.add('pl-arb');v5.innerHTML='<div class="pl-night" aria-hidden="true"></div>';var rc=arbBuild(),gw=document.createElement('div');gw.className='gfx';gw.style.setProperty('--gfr','20px');gw.appendChild(rc.el);v5.appendChild(gw);
+    var auto=g.classList.contains('pl-auto');
+    if(!auto||reduce||!gc.anim||!('IntersectionObserver' in window)){rc.all();return;}
+    var items=[].slice.call(g.querySelectorAll('.pl-i')),views=[].slice.call(g.querySelectorAll('.pl-v')),cur=0,tm=null,seen=false;
+    function play(k){if(k===0){gc.stop();gc.start();}else gc.stop();if(k===5)rc.run();else rc.stop();}
+    function dwell(k){return k===0?Math.max(5500,gc.len()+2800):k===5?7000:5500;}
+    function show(n){cur=(n+items.length)%items.length;items.forEach(function(a,k){a.classList.toggle('is-on',k===cur);});views.forEach(function(v,k){v.classList.toggle('is-on',k===cur);});play(cur);}
+    function sched(){clearTimeout(tm);tm=setTimeout(function(){if(!g.matches(':hover'))show(cur+1);sched();},dwell(cur));}
+    function halt(){clearTimeout(tm);tm=null;gc.stop();rc.stop();}
+    items.forEach(function(a,k){a.addEventListener('mouseenter',function(){if(cur!==k){show(k);sched();}});});
+    g.addEventListener('mouseleave',function(){show(cur);sched();});
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!seen||!tm){seen=true;show(cur);sched();}}else halt();});},{threshold:.35}).observe(g);
   }
   /* Name the footer logo link for screen readers. Mark the nav as scrolled past the top on every page. Pages with their own frosted or dark scrolled nav (home, Source, Control, Agents) style .hv-scrolled; elsewhere the class does nothing. */
   function navScrolled(){
@@ -529,5 +561,5 @@
     var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
     var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
