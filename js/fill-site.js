@@ -482,5 +482,11 @@
       tm.push(setTimeout(function(){act.classList.add('on');},t0+700));tm.push(setTimeout(function(){ok.classList.add('press');},t0+1500));tm.push(setTimeout(function(){ok.classList.remove('press');},t0+1800));}
     new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){run();o.disconnect();}});},{threshold:.4}).observe(s.querySelector('.arb-card'));
   }
-  ready(function(){[hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  /* Mark the nav as scrolled past the top on every page. Pages with their own frosted or dark scrolled nav (home, Source, Control, Agents) style .hv-scrolled; elsewhere the class does nothing. */
+  function navScrolled(){
+    var nav=document.querySelector('.nav-v2');if(!nav||nav.__ns)return;nav.__ns=1;var tick=false;
+    function upd(){nav.classList.toggle('hv-scrolled',(window.pageYOffset||0)>24);tick=false;}
+    addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
+  }
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
