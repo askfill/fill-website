@@ -517,7 +517,9 @@
     var g=g0.cloneNode(true);g0.parentNode.replaceChild(g,g0);g.__pl=1;
     var v0=g.querySelector('.pl-v0'),v5=g.querySelector('.pl-v5');if(!v0||!v5)return;
     v0.classList.add('pl-gc');v0.innerHTML='';var gc=gcBuild(v0);
-    v5.classList.add('pl-arb');v5.innerHTML='<div class="pl-night" aria-hidden="true"></div>';var rc=arbBuild(),gw=document.createElement('div');gw.className='gfx';gw.style.setProperty('--gfr','20px');gw.appendChild(rc.el);v5.appendChild(gw);
+    v5.classList.add('pl-arb');v5.innerHTML='';
+    var st=g.querySelector('.pl-stage');if(st&&!st.querySelector('.pl-bgs'))st.insertAdjacentHTML('afterbegin','<div class="pl-bgs" aria-hidden="true"><i class="pl-bg-dawn"></i><i class="pl-bg-day"></i><i class="pl-bg-night"></i></div>');
+    var rc=arbBuild(),gw=document.createElement('div');gw.className='gfx';gw.style.setProperty('--gfr','20px');gw.appendChild(rc.el);v5.appendChild(gw);
     var auto=g.classList.contains('pl-auto');
     if(!auto||reduce||!gc.anim||!('IntersectionObserver' in window)){rc.all();return;}
     var items=[].slice.call(g.querySelectorAll('.pl-i')),views=[].slice.call(g.querySelectorAll('.pl-v')),cur=0,tm=null,seen=false;
