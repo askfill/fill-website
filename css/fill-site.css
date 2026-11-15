@@ -553,3 +553,7 @@ html body .cl-hwin.ph3-on{background:transparent!important;box-shadow:none!impor
 .ph3-lr.on{opacity:1;transform:none}
 @media (max-width:767px){.ph3-l,.ph3-r{display:none}.ph3-m{left:0;right:0;width:auto;margin-left:0;top:0;padding:24px;border-radius:64px}.ph3-m .ph3-in{zoom:2.55;border-radius:16px}}
 @media (prefers-reduced-motion:reduce){.ph3 *{transition:none!important;animation:none!important}}
+/* the hero ends right under the three windows; the logo strip follows */
+@media (min-width:768px){html body .cl.pl-page .cl-stage{height:570px!important}}
+html body .cl.pl-page .cl-stage{clip-path:none!important}
+html body .ph3-logos{padding-top:24px!important}

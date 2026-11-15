@@ -539,6 +539,9 @@
   function productHero(){
     var hw=document.querySelector('.cl.pl-page .cl-stage>.cl-hwin');if(!hw||hw.classList.contains('ph3-on'))return;
     hw.classList.add('ph3-on');
+    /* the customer logo strip moves up, straight under the three windows */
+    var hero=hw.closest('section.cl-hero'),lgo=document.querySelector('img.lgo'),lgs=lgo&&(lgo.closest('.cl-logos')||lgo.closest('section'));
+    if(hero&&lgs&&!lgs.contains(hero)&&hero.nextElementSibling!==lgs){hero.parentNode.insertBefore(lgs,hero.nextSibling);lgs.classList.add('ph3-logos');}
     var tick='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
     var rows=[['Elin Berg','Sigma IT',4,62,'#D9DBFE'],['Jonas Ek','Knowit',10,58,'#FBE3C6'],['Omar Haddad','Sigma IT',30,96,'#6E6DC6'],['Pia Lund','Netlight',48,98,'#D9DBFE'],['Karl Ström','Knowit',20,90,'#D9DBFE']];
     var log=[['07:00','<b>Timesheet chaser</b> reminded 4 consultants'],['08:12','<b>Invoice match</b> matched Knowit 2214 to 168 h'],['09:30','<b>Supplier follow-up</b> nudged Randstad'],['11:40','<b>Extension watch</b> started Jonas Ek']];
