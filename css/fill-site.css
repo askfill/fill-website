@@ -413,3 +413,5 @@ html body:has(.nav-v2.is-open) .cc-revoke{opacity:0!important;pointer-events:non
 h2.heading-206{line-height:1.22;margin-bottom:28px}
 /* Podcast list: episode titles are now h2 ("All episodes" is the page's one h1); keep the look they had as h1. */
 html body h2.heading-205.heading-205{font-family:"DM Sans",sans-serif!important;font-size:18px!important;line-height:1.22!important;font-weight:400!important;letter-spacing:-1px!important;margin-top:10px!important;margin-bottom:40px!important}
+/* Footer: links whose text sits in an inner div were painted pure white by the footer cloud rule, so half the links looked brighter and lost their hover. Every footer link now takes the link's own colour. */
+html body .f-footer-link.on-dark *{color:inherit!important}
