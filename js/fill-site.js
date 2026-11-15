@@ -507,5 +507,11 @@
     d.innerHTML='<span class="fx-askai-l">Ask your AI about Fill</span><span class="fx-askai-row">'+L.map(function(x){return '<a class="fx-askai-a" href="'+x[1]+'" target="_blank" rel="noopener" title="'+x[0]+'" aria-label="Get an AI summary of Fill in '+x[0]+'"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="'+P[x[0]]+'"/></svg></a>';}).join('')+'</span>';
     grid.parentNode.insertBefore(d,grid.nextSibling);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  /* Footer: the one legal link, Privacy policy, on every page (the "Sundown page fixes" embed adds the same row on the pages that carry it). */
+  function privacyRow(){
+    var c=document.querySelector('.footer-a .text-block-245');if(!c||document.querySelector('.sdf-legal'))return;
+    var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
+    var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
+  }
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();

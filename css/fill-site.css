@@ -424,3 +424,7 @@ html body .fx-askai a.fx-askai-a svg{width:17px;height:17px;display:block}
 html body .fx-askai a.fx-askai-a:hover{color:#fff;border-color:rgba(255,255,255,.5);background-color:rgba(255,255,255,.06)}
 html body .fx-askai a.fx-askai-a:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @media (max-width:767px){.fx-askai{margin-top:28px}.fx-askai-l{width:100%}html body .fx-askai a.fx-askai-a{width:44px;height:44px}html body .fx-askai a.fx-askai-a svg{width:19px;height:19px}}
+/* Footer legal row (Privacy policy only): same look as the "Sundown page fixes" embed, so pages without that embed match. */
+.sdf-legal{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:14px;font-size:13px;line-height:1.4}
+html body .sdf-legal a{color:rgba(255,255,255,.62);text-decoration:none}
+html body .sdf-legal a:hover{color:#FFFFFF}
