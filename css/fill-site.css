@@ -388,3 +388,8 @@ html body .f-logo-button-wrapper .cta-2.white{background:transparent!important;c
 .arb-card::after{inset:-6px;z-index:-1;filter:blur(18px);opacity:.55}
 @keyframes arbBeam{to{--arbA:360deg}}
 @media (prefers-reduced-motion:reduce){.arb-card::before,.arb-card::after{animation:none;--arbA:40deg}}
+
+/* Pass 22 (Safari check): the demo form fits the column on phones (its embed is a fixed 400 px); the book-a-demo intro keeps its line breaks; the cookie-settings pill hides while the mobile menu is open. */
+html body .w-embed iframe[src*="supplier.fill.work/public/form"]{max-width:100%}
+html[data-wf-page="6772630c34939788e26d4c27"] .column-37>p.paragraph{white-space:pre-line}
+html body:has(.nav-v2.is-open) .cc-revoke{opacity:0!important;pointer-events:none!important}
