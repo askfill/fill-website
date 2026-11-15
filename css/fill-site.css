@@ -409,3 +409,5 @@ html body:has(.nav-v2.is-open) .cc-revoke{opacity:0!important;pointer-events:non
 .tms-go{position:absolute;inset:0;z-index:3;border-radius:inherit}
 .tms-go:focus-visible{outline:2px solid #0c0a09;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.op.night .op-win.gf-glw::after{animation:none}.tms-card.tms-lk,.tms-card.tms-lk:hover{transition:none;transform:none}}
+/* Podcast episode pages: "Episode summary" and "Episode transcript" are now h2 (one h1 per page); keep the spacing they had as h1. */
+h2.heading-206{line-height:1.22;margin-bottom:28px}
