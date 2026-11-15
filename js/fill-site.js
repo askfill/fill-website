@@ -145,7 +145,9 @@
     });},{threshold:[0,.35]}).observe(w);
   }
   /* 5c. Control hero: several users' cursors; "You" hovers Omar Haddad's bar and the consultant card opens, then closes, in a loop */
-  function cursors(){document.querySelectorAll(':is(.fl-hwin,.chp-win) .cv').forEach(cursorsOn);}
+  function cursors(){document.querySelectorAll(':is(.fl-hwin,.chp-win) .cv').forEach(cursorsOn);
+    /* Automate cursors (.cur): same arrow as the Control cursors; colour comes from CSS fill */
+    document.querySelectorAll('.cur>svg:not(.mc-ar)').forEach(function(g){g.outerHTML='<svg class="mc-ar" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2.5 10.6 21l2.7-7.7L21 10.6z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';});}
   function cursorsOn(cv){
     if(cv.querySelector('.mc-layer'))return;
     var bar=cv.querySelector('.tl-b.on'),cc=cv.querySelector('.cc');if(!bar||!cc)return;

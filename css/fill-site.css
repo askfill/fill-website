@@ -450,3 +450,8 @@ html body .cur.c3 svg{fill:#5750B1}html body .cur.c3 span{background:#5750B1}
 @media (max-width:767px){.gc-done b{font-size:19px}.gc-done span{font-size:14px}.gc-ok{width:52px;height:52px}}
 @media (prefers-reduced-motion:reduce){.gc-ok,.cc-x{transition:none!important}}
 html body .op .toast{z-index:6;color:#1C1917}
+/* Pass 23: Automate cursors (.cur) look exactly like the Control cursors (.mc): 22 px arrow, 12 px label, 3/8 px padding, line-height 1.33. */
+html body .cur{gap:2px}
+html body .cur svg{width:22px;height:22px;flex:none;stroke:none;filter:drop-shadow(0 2px 3px rgba(10,20,70,.25))}
+html body .cur svg.mc-ar path{stroke:#fff}
+html body .cur span{margin-top:16px;padding:3px 8px;border-radius:100px;color:#fff;font:600 12px/1.33 "DM Sans",system-ui,sans-serif;white-space:nowrap;box-shadow:0 4px 10px -4px rgba(10,20,70,.35)}
