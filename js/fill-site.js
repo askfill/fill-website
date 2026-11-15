@@ -388,7 +388,7 @@
     function inner(h){var hr=h.getBoundingClientRect(),q=[h],k;for(var d=0;d<4;d++){var nq=[];for(var i=0;i<q.length;i++)for(var j=0;j<q[i].children.length;j++){k=q[i].children[j];var r=k.getBoundingClientRect(),rad=parseFloat(getComputedStyle(k).borderTopLeftRadius);if(rad>0&&Math.abs(r.width-hr.width)<4&&Math.abs(r.height-hr.height)<4)return rad;nq.push(k);}q=nq;}return parseFloat(getComputedStyle(h).borderTopLeftRadius)||14;}
     document.querySelectorAll('.fl-v>.cw,.ftb-tw,.pl-v>.cw').forEach(function(w){if(w.classList.contains('gf-bar'))return;w.classList.add('gf-bar');if(w.classList.contains('cw'))w.style.setProperty('--gfb','#F9F9FA');
       var v=w.parentElement;if(v.classList.contains('fl-v')&&!v.classList.contains('gf-gl')){v.classList.add('gf-gl');v.style.setProperty('--gfg',G[glow]);}});
-    document.querySelectorAll('.cl-hwin,.fl-hwin,.op-win,.chp-win,.fs-nf-p').forEach(function(h){if(h.classList.contains('gf')||h.closest('.gc-on'))return;
+    document.querySelectorAll('.cl-hwin,.fl-hwin,.op-win,.chp-win,.fs-nf-p').forEach(function(h){if(h.classList.contains('gf')||h.closest('.gc-on,.ph3-on'))return;
       h.classList.add('gf');h.style.setProperty('--gfr',Math.round(inner(h))+'px');var sz=function(){var w=h.getBoundingClientRect().width;if(!w||!h.offsetWidth)return;var k=w/h.offsetWidth;h.style.setProperty('--gfi',Math.min(40,10/k).toFixed(1)+'px');};sz();addEventListener('resize',sz);h.addEventListener('animationend',sz);setTimeout(sz,1500);setTimeout(sz,4000);if(dark(h.parentElement))h.classList.add('gf-n');
       if(h.classList.contains('op-win')){h.classList.add('gf-glw');h.style.setProperty('--gfg',G[dark(h.parentElement)?'night':glow]);}});
     document.querySelectorAll('.fw-win').forEach(function(w){if(w.previousElementSibling&&w.previousElementSibling.classList.contains('gf-rim'))return;
@@ -534,6 +534,35 @@
     g.addEventListener('mouseleave',function(){show(cur);sched();});
     new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!seen||!tm){seen=true;show(cur);sched();}}else halt();});},{threshold:.35}).observe(g);
   }
+  /* /product hero (his pick F): three glass windows fanned, one per job, each playing its own loop: Find types a request, Control grows the timeline and checks the contract,
+     Automate logs the agents' morning. Replaces the composer that /source already shows. Only while in view. */
+  function productHero(){
+    var hw=document.querySelector('.cl.pl-page .cl-stage>.cl-hwin');if(!hw||hw.classList.contains('ph3-on'))return;
+    hw.classList.add('ph3-on');
+    var tick='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+    var rows=[['Elin Berg','Sigma IT',4,62,'#D9DBFE'],['Jonas Ek','Knowit',10,58,'#FBE3C6'],['Omar Haddad','Sigma IT',30,96,'#6E6DC6'],['Pia Lund','Netlight',48,98,'#D9DBFE'],['Karl Ström','Knowit',20,90,'#D9DBFE']];
+    var log=[['07:00','<b>Timesheet chaser</b> reminded 4 consultants'],['08:12','<b>Invoice match</b> matched Knowit 2214 to 168 h'],['09:30','<b>Supplier follow-up</b> nudged Randstad'],['11:40','<b>Extension watch</b> started Jonas Ek']];
+    var Q='A senior backend engineer for payments, 1 Dec';
+    hw.innerHTML='<div class="ph3" aria-hidden="true">'
+      +'<div class="ph3-c ph3-l"><div class="ph3-in"><span class="ph3-k ph3-dawn">Find</span><b class="ph3-h">Good morning, Anna. Who do you want to hire?</b><div class="ph3-q"><span class="ph3-t"></span><i class="ph3-car"></i></div><div class="ph3-st">'+tick+'Request drafted · 3 suppliers picked</div></div></div>'
+      +'<div class="ph3-c ph3-m"><div class="ph3-in"><span class="ph3-k ph3-day">Control</span><b class="ph3-h">Consultants · 8 active</b><div class="ph3-tl">'+rows.map(function(r){return '<span class="ph3-n">'+r[0]+'<small> · '+r[1]+'</small></span><span class="ph3-lane"><i style="left:'+r[2]+'%;right:'+(100-r[3])+'%;background:'+r[4]+'"></i></span>';}).join('')+'</div><div class="ph3-st">'+tick+'Contract for Omar Haddad matches the request</div></div></div>'
+      +'<div class="ph3-c ph3-r"><div class="ph3-in"><span class="ph3-k ph3-night">Automate</span><b class="ph3-h">Agent log · today</b><div class="ph3-log">'+log.map(function(l){return '<div class="ph3-lr"><span>'+l[0]+'</span><i></i><span>'+l[1]+'</span></div>';}).join('')+'</div></div></div></div>';
+    var q=hw.querySelector('.ph3-t'),sts=[].slice.call(hw.querySelectorAll('.ph3-st')),bars=[].slice.call(hw.querySelectorAll('.ph3-lane i')),lr=[].slice.call(hw.querySelectorAll('.ph3-lr'));
+    var all=sts.concat(bars,lr);
+    function reset(){q.textContent='';all.forEach(function(e){e.classList.remove('on');});}
+    function final(){q.textContent=Q;all.forEach(function(e){e.classList.add('on');});}
+    if(reduce||!('IntersectionObserver' in window)){final();return;}
+    var run=false,tm=[];function at(ms,f){tm.push(setTimeout(function(){if(run)f();},ms));}function clear(){tm.forEach(clearTimeout);tm=[];}
+    function cycle(){clear();reset();var t=500;
+      for(var i=1;i<=Q.length;i++){(function(i){at(t,function(){q.textContent=Q.slice(0,i);});})(i);t+=38;}
+      t+=350;at(t,function(){sts[0].classList.add('on');});
+      t+=500;bars.forEach(function(b,i){at(t+i*220,function(){b.classList.add('on');});});
+      t+=bars.length*220+400;at(t,function(){sts[1].classList.add('on');});
+      t+=500;lr.forEach(function(r,i){at(t+i*450,function(){r.classList.add('on');});});
+      t+=lr.length*450+3200;at(t,cycle);}
+    reset();
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!run){run=true;cycle();}else if(!e.isIntersecting&&run){run=false;clear();final();}});},{threshold:.2}).observe(hw);
+  }
   /* /product one-list: every picture moves when shown (his standing rule). Shortlist rows and must-haves fill in; the contract is checked row by row and Acando is asked to correct the rate;
      the extension is sent for approval; invoices are matched one by one. Each player resets when hidden and replays when shown. */
   function plPlayers(views){
@@ -617,5 +646,5 @@
     var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
     var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
