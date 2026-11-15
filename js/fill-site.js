@@ -515,6 +515,7 @@
   function productList(){
     var g0=document.querySelector('.pl-grid');if(!g0||g0.__pl)return;
     var g=g0.cloneNode(true);g0.parentNode.replaceChild(g,g0);g.__pl=1;
+    document.querySelectorAll('.cl').forEach(function(c){if(c.querySelector(':scope>.cl-hero .cl-og')&&!c.classList.contains('fl-page'))c.classList.add('pl-page');document.body.classList.add('pl-glow');});
     var v0=g.querySelector('.pl-v0'),v5=g.querySelector('.pl-v5');if(!v0||!v5)return;
     v0.classList.add('pl-gc');v0.innerHTML='';var gc=gcBuild(v0);
     v5.classList.add('pl-arb');v5.innerHTML='';

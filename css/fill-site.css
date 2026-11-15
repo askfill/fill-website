@@ -518,3 +518,13 @@ html body .cmp-twocol-pin-active{background:#F5F5F4!important;box-shadow:inset 0
 html body :is(.cmp-twocol-figure,.cmp-card-block,.cmp-card-table,.cmp-card-bars,.vmg-card)::before{padding:10px;box-sizing:border-box;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 html body :is(.cmp-twocol-figure,.cmp-card-block,.cmp-card-table,.cmp-card-bars,.vmg-card){box-shadow:0 0 0 10px rgba(255,255,255,.0),0 1px 2px rgba(10,20,70,.06),0 40px 70px -30px rgba(10,20,70,.32)!important}
 html body .cmp-card-table{overflow:visible!important;border-radius:18px!important}html body .cmp-card-table>.cmp-card-row:first-child{border-top-left-radius:18px;border-top-right-radius:18px}html body .cmp-card-table>.cmp-card-row:last-child{border-bottom-left-radius:18px;border-bottom-right-radius:18px}
+/* Pass 29: /product hero glow comes from the top, exactly like Source and Control (.fl-page::before), instead of a sun rising behind the window. Same blue. */
+html body .cl.pl-page:not(.fl-page){position:relative}
+html body .cl.pl-page:not(.fl-page)::before{content:"";position:absolute;left:50%;top:-600px;width:2300px;height:1000px;margin-left:-1150px;border-radius:50%;filter:blur(26px);pointer-events:none;z-index:0;
+  background:radial-gradient(50% 50% at 50% 50%,#0B1240 0%,#1C34B4 20%,#3E63E6 38%,#8FA6F2 58%,rgba(206,214,248,.6) 74%,rgba(243,242,240,0) 100%)}
+html body .cl.pl-page:not(.fl-page) .cl-hero{position:relative;z-index:1}
+html body .cl.pl-page:not(.fl-page) .cl-og{display:none!important}
+/* the menu bar sits on the glow like Control: clear at the top, frosted white once scrolled */
+html body.pl-glow .nav-v2:not(.hv-scrolled){background:transparent!important;--sd-nav-bg:transparent}
+html body.pl-glow .nav-v2.hv-scrolled{background:rgba(255,255,255,.72)!important;-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);border-bottom:1px solid rgba(20,20,28,.08)!important}
+html body .cl.pl-page:not(.fl-page)::before{opacity:.55}
