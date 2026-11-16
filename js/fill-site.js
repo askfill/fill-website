@@ -667,7 +667,7 @@
     var co=s3.querySelector('.tms-co');co.className='tms-co';co.textContent='SSAB';
     s3.querySelector('.tms-q').textContent='"Fill does more than give us control of the process. It helps managers move every request forward, catches issues early and takes away much of the follow-up that used to sit with procurement."';
     var who=s3.querySelector('.tms-who');who.querySelector('b').textContent='Ufuk Atag\u00fcn';who.querySelector('span').textContent='Project buyer, SSAB';
-    var im=s3.querySelector('.tms-img img');if(im){im.removeAttribute('srcset');im.src='https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6aa9a621253dd1decf2ef884_114ae8403e65ed30aa1a74b676d8b99e_9cbed0f169f65dd0_org.webp';im.alt='';}
+    var im=s3.querySelector('.tms-img img');if(im){im.removeAttribute('srcset');im.src='https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6a0ad1a72a4776be6365aa55_ChatGPT%20Image%2018%20maj%202026%2010_45_03%20(3).webp';im.alt='';}
     var nav=function(sl,prev,next){var l=sl.querySelectorAll('.tms-nav label');if(l.length>1){l[0].setAttribute('for',prev);l[1].setAttribute('for',next);}};
     nav(s3,'tms2','tms0');nav(s2,'tms1','tms3');nav(s0,'tms3','tms1');
     track.appendChild(s3);

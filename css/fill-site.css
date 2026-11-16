@@ -616,7 +616,7 @@ html body .fs-nf-p.gf{box-shadow:0 0 0 1px rgba(20,30,80,.06),0 1px 2px rgba(10,
 html body .fs-nf-p.gf::before{inset:-12px;padding:12px;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(232,235,250,.55));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);box-shadow:inset 0 1px 0 rgba(255,255,255,1),inset 0 0 0 1px rgba(255,255,255,.75),0 0 0 1px rgba(20,30,80,.07)}
 /* Pass 36: footer: drop the thin line drawn across the bottom of the blue glow (.ft-line); the glow alone closes the page. */
 html body .ft-line{display:none!important}
-/* Pass 37: SSAB quote card in the Customer quotes carousel uses SSAB's own customer-story photo */
-html body .cqs-photo[data-cqs-photo="ssab"]{background-image:url("https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6aa9a621253dd1decf2ef884_114ae8403e65ed30aa1a74b676d8b99e_9cbed0f169f65dd0_org.webp")!important;background-size:cover!important;background-position:center!important}
+/* Pass 37: SSAB quote card in the Customer quotes carousel; photo from the blurred-people series like the other cards (pass 39) */
+html body .cqs-photo[data-cqs-photo="ssab"]{background-image:url("https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6a0ad1a72a4776be6365aa55_ChatGPT%20Image%2018%20maj%202026%2010_45_03%20(3).webp")!important;background-size:cover!important;background-position:center!important}
 /* Pass 38: homepage quote carousel gets a fourth slide (SSAB, added by tmsSsab in fill-site.js) */
 #tms3:checked ~ .tms-in .tms-track{transform:translateX(-300%)}
