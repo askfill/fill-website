@@ -603,6 +603,18 @@
   }
   /* Compare pages: the pictures move (standing rule). "Why every enterprise needs a VMS" cycles its four pins; the three cards tick the RFP steps on,
      bring the consultants in and grow the spend bars, then replay. Runs only while in view. */
+  function cmpHub(){
+    var h=document.querySelector('.cmh');if(!h||h.classList.contains('cmh-js'))return;
+    document.body.classList.add('pl-glow');
+    var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(rm||!('IntersectionObserver' in window))return;
+    h.classList.add('cmh-js');
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;io.unobserve(e.target);
+      if(e.target.classList.contains('cmh-grid')){[].forEach.call(e.target.querySelectorAll('.cmh-card'),function(c,i){setTimeout(function(){c.classList.add('on');},90*i);});}
+      else{[].forEach.call(e.target.querySelectorAll('.cmh-y'),function(y,i){setTimeout(function(){y.classList.add('on');},180+220*i);});}
+    });},{threshold:.2});
+    [].forEach.call(h.querySelectorAll('.cmh-grid,.cmh-tb'),function(el){io.observe(el);});
+  }
   function cmpMotion(){
     if(reduce||!('IntersectionObserver' in window))return;
     function watch(el,start,stop){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)start();else stop();});},{threshold:.3}).observe(el);}
@@ -649,5 +661,5 @@
     var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
     var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpHub,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
