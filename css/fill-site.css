@@ -602,3 +602,10 @@ html body .cmh-tb{min-width:0;width:auto}html body .cmh-tb tr{display:flex}
 html body .cmh-tb th,html body .cmh-tb td{flex:0 0 112px;box-sizing:border-box;padding:14px 10px}
 html body .cmh-tb th:first-child{flex:0 0 148px;padding-left:16px;position:sticky;left:0;z-index:1;background:#FFFFFF;box-shadow:1px 0 0 #F1F0EE}
 html body .cmh-tb .cmh-f{order:-1;flex:0 0 84px}html body .cmh-tb th:first-child{order:-2}}
+/* Pass 33: /compare hub cards show the rival's own logo (img/logos, from each company's site) on a white tile; generic rivals (MSP, spreadsheets) get a line icon on the group tint */
+html body .cmh-t.cmh-logo{background:#FFFFFF;box-shadow:inset 0 0 0 1px #ECEAE6;overflow:hidden}
+html body .cmh-logo img{display:block;width:30px;height:30px;object-fit:contain}
+html body .cmh-logo.wide img{width:36px;height:24px}
+html body .cmh-logo.full{box-shadow:none}html body .cmh-logo.full img{width:100%;height:100%;object-fit:cover}
+html body .cmh-t svg{display:block;width:22px;height:22px}
+html body .cmh-card .cmh-t{transition:transform .3s cubic-bezier(.2,.7,.2,1)}html body .cmh-card:hover .cmh-t{transform:scale(1.06)}
