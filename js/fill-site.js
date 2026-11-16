@@ -603,6 +603,18 @@
   }
   /* Compare pages: the pictures move (standing rule). "Why every enterprise needs a VMS" cycles its four pins; the three cards tick the RFP steps on,
      bring the consultants in and grow the spend bars, then replay. Runs only while in view. */
+  function compareLinks(){
+    /* "All comparisons" goes to /compare: last link in the menu's Compare column and after the last "Changing from" link in the footer */
+    [].forEach.call(document.querySelectorAll('.mn-col'),function(c){var l=c.querySelector('.mn-lbl');
+      if(!l||l.textContent.trim()!=='Compare'||c.querySelector('a[href="/compare"]'))return;
+      var a=document.createElement('a');a.className='mn-a';a.href='/compare';a.innerHTML='<b>All comparisons</b><span>VMS, brokers, ATS and HR systems side by side</span>';c.appendChild(a);});
+    var fl=[].filter.call(document.querySelectorAll('footer a, [class*="footer"] a'),function(a){return /^Changing from /.test(a.textContent.trim());});
+    if(!fl.length)return;var last=fl[fl.length-1],box=last.parentNode;if(box.querySelector('a[href="/compare"]'))return;
+    var n=last.cloneNode(true);n.setAttribute('href','/compare');n.removeAttribute('aria-current');n.classList.remove('w--current');
+    var w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT,null,false),t,done=false;
+    while((t=w.nextNode())){if(!done&&/Changing from/.test(t.nodeValue)){t.nodeValue='All comparisons';done=true;}else if(done&&t.nodeValue.trim())t.nodeValue='';}
+    box.insertBefore(n,last.nextSibling);
+  }
   function cmpHub(){
     var h=document.querySelector('.cmh');if(!h||h.classList.contains('cmh-js'))return;
     document.body.classList.add('pl-glow');
@@ -661,5 +673,5 @@
     var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
     var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpHub,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpHub,compareLinks,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
