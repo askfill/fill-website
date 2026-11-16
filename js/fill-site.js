@@ -657,6 +657,21 @@
     addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
   }
   /* Customer quote cards open that customer's story. Matched on the logo, so new cards without a story page stay as they are. */
+  /* Homepage quote carousel (radio-driven, inside the big homepage embed): add an SSAB slide as the fourth card and wire its arrows. */
+  function tmsSsab(){
+    var sec=document.querySelector('section.tms');if(!sec||sec.querySelector('#tms3'))return;
+    var r2=sec.querySelector('#tms2'),track=sec.querySelector('.tms-track');if(!r2||!track||track.children.length!==3)return;
+    var r3=r2.cloneNode(false);r3.id='tms3';r3.checked=false;r3.removeAttribute('checked');r2.parentNode.insertBefore(r3,r2.nextSibling);
+    var s0=track.children[0],s2=track.children[2],s3=s0.cloneNode(true);
+    var go=s3.querySelector('.tms-go');if(go)go.remove();
+    var co=s3.querySelector('.tms-co');co.className='tms-co';co.textContent='SSAB';
+    s3.querySelector('.tms-q').textContent='"Fill does more than give us control of the process. It helps managers move every request forward, catches issues early and takes away much of the follow-up that used to sit with procurement."';
+    var who=s3.querySelector('.tms-who');who.querySelector('b').textContent='Ufuk Atag\u00fcn';who.querySelector('span').textContent='Project buyer, SSAB';
+    var im=s3.querySelector('.tms-img img');if(im){im.removeAttribute('srcset');im.src='https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6aa9a621253dd1decf2ef884_114ae8403e65ed30aa1a74b676d8b99e_9cbed0f169f65dd0_org.webp';im.alt='';}
+    var nav=function(sl,prev,next){var l=sl.querySelectorAll('.tms-nav label');if(l.length>1){l[0].setAttribute('for',prev);l[1].setAttribute('for',next);}};
+    nav(s3,'tms2','tms0');nav(s2,'tms1','tms3');nav(s0,'tms3','tms1');
+    track.appendChild(s3);
+  }
   function tmsLinks(){
     var M=[[/green\s*cargo/i,'/customers/green-cargo'],[/s(ö|o)derberg/i,'/customers/soderberg-partners'],[/noba/i,'/noba-bank'],[/ssab/i,'/customers/ssab']];
     document.querySelectorAll('.tms-card').forEach(function(c){if(c.querySelector('.tms-go'))return;var co=c.querySelector('.tms-co');if(!co)return;
@@ -680,5 +695,5 @@
     var n=document.createElement('nav');n.className='sdf-legal';n.setAttribute('aria-label','Legal');
     var a=document.createElement('a');a.href='/privacy';a.textContent='Privacy policy';n.appendChild(a);c.parentNode.appendChild(n);
   }
-  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpHub,compareLinks,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
+  ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpHub,compareLinks,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,tmsSsab,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();

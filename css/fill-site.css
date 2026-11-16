@@ -618,3 +618,5 @@ html body .fs-nf-p.gf::before{inset:-12px;padding:12px;border-radius:28px;backgr
 html body .ft-line{display:none!important}
 /* Pass 37: SSAB quote card in the Customer quotes carousel uses SSAB's own customer-story photo */
 html body .cqs-photo[data-cqs-photo="ssab"]{background-image:url("https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6aa9a621253dd1decf2ef884_114ae8403e65ed30aa1a74b676d8b99e_9cbed0f169f65dd0_org.webp")!important;background-size:cover!important;background-position:center!important}
+/* Pass 38: homepage quote carousel gets a fourth slide (SSAB, added by tmsSsab in fill-site.js) */
+#tms3:checked ~ .tms-in .tms-track{transform:translateX(-300%)}
