@@ -604,10 +604,17 @@
   /* Compare pages: the pictures move (standing rule). "Why every enterprise needs a VMS" cycles its four pins; the three cards tick the RFP steps on,
      bring the consultants in and grow the spend bars, then replay. Runs only while in view. */
   function compareLinks(){
-    /* "All comparisons" goes to /compare: last link in the menu's Compare column and after the last "Changing from" link in the footer */
+    /* Menu Compare column: MSP, Fieldglass, eWork, Magnit, What is a VMS?, All comparisons. Beeline leaves the menu (its page and footer link stay).
+       "All comparisons" goes to /compare: last link in the menu's Compare column and after the last "Changing from" link in the footer */
     [].forEach.call(document.querySelectorAll('.mn-col'),function(c){var l=c.querySelector('.mn-lbl');
-      if(!l||l.textContent.trim()!=='Compare'||c.querySelector('a[href="/compare"]'))return;
-      var a=document.createElement('a');a.className='mn-a';a.href='/compare';a.innerHTML='<b>All comparisons</b><span>VMS, brokers, ATS and HR systems side by side</span>';c.appendChild(a);});
+      if(!l||l.textContent.trim()!=='Compare')return;
+      function mk(h,b,s){var a=document.createElement('a');a.className='mn-a';a.href=h;a.innerHTML='<b>'+b+'</b><span>'+s+'</span>';return a;}
+      var bl=c.querySelector('a[href="/compare/beeline-alternative"]');if(bl)bl.parentNode.removeChild(bl);
+      if(!c.querySelector('a[href="/compare/ework-alternative"]')){var vms=c.querySelector('a[href="/compare/what-is-a-vms"]');
+        [mk('/compare/ework-alternative','Fill or eWork','Talk to suppliers directly, no broker margin'),
+         mk('/compare/magnit-alternative','Fill or Magnit','Run it yourself, no outsourced program')]
+        .forEach(function(a){if(vms)c.insertBefore(a,vms);else c.appendChild(a);});}
+      if(!c.querySelector('a[href="/compare"]'))c.appendChild(mk('/compare','All comparisons','VMS, brokers, ATS and HR systems side by side'));});
     var fl=[].filter.call(document.querySelectorAll('footer a, [class*="footer"] a'),function(a){return /^Changing from /.test(a.textContent.trim());});
     if(!fl.length)return;var last=fl[fl.length-1],box=last.parentNode;if(box.querySelector('a[href="/compare"]'))return;
     var n=last.cloneNode(true);n.setAttribute('href','/compare');n.removeAttribute('aria-current');n.classList.remove('w--current');
