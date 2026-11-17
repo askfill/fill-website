@@ -620,3 +620,6 @@ html body .ft-line{display:none!important}
 html body .cqs-photo[data-cqs-photo="ssab"]{background-image:url("https://cdn.prod.website-files.com/6772630c34939788e26d4ae6/6a0ad1a72a4776be6365aa55_ChatGPT%20Image%2018%20maj%202026%2010_45_03%20(3).webp")!important;background-size:cover!important;background-position:center!important}
 /* Pass 38: homepage quote carousel gets a fourth slide (SSAB, added by tmsSsab in fill-site.js) */
 #tms3:checked ~ .tms-in .tms-track{transform:translateX(-300%)}
+/* Pass 39: homepage "One record. Four ways to read it." product windows on tablet and phone. The section inherits the body's fixed 30.6px line height, so wrapped text in the windows spread far apart; the window title wrapped under the three dots; and one wide window stretched the stage's grid so every window ran off its right edge. */
+@media (max-width:991px){.ftb{line-height:1.45}.ftb-tv-s{grid-template-columns:minmax(0,1fr)}.ftb-tw-bar span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+@media (max-width:767px){.ftb .ftb-iv{grid-template-columns:minmax(0,1fr) auto auto;gap:10px}.ftb .ftb-iv>:nth-child(n+2){white-space:nowrap}}
