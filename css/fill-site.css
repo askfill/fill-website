@@ -623,3 +623,12 @@ html body .cqs-photo[data-cqs-photo="ssab"]{background-image:url("https://cdn.pr
 /* Pass 39: homepage "One record. Four ways to read it." product windows on tablet and phone. The section inherits the body's fixed 30.6px line height, so wrapped text in the windows spread far apart; the window title wrapped under the three dots; and one wide window stretched the stage's grid so every window ran off its right edge. */
 @media (max-width:991px){.ftb{line-height:1.45}.ftb-tv-s{grid-template-columns:minmax(0,1fr)}.ftb-tw-bar span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 @media (max-width:767px){.ftb .ftb-iv{grid-template-columns:minmax(0,1fr) auto auto;gap:10px}.ftb .ftb-iv>:nth-child(n+2){white-space:nowrap}}
+/* Pass 40: product pictures on tablet and phone. Short UI lines (compare pins, column headers, card titles, rows in the homepage windows) stay on one line and end in an ellipsis instead of wrapping into a second line with the body's loose 30.6px line height. Labels that must stay whole (the security badge names, the logo caption on /product) keep wrapping but with a normal line height. Chat bubbles, headlines and agent descriptions still wrap; they wrap on desktop too. */
+@media (max-width:991px){
+.cmp-twocol-pin>span:not(.cmp-twocol-pin-icon),.cw .sl-r>span,.iorb-c .vmg-title,.ftb .ftb-tvq-row>span:first-child,.ftb .ftb-iv>span,.ftb .ftb-le-t>b,.ftb .ftb-tw-r:not(.ftb-tw-live)>span:not(.ftb-tw-dot),.ftb .ftb-tw-r:not(.ftb-tw-live)>b{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftb .ftb-tw-r:not(.ftb-tw-live)>span:not(.ftb-tw-dot){flex:1 1 auto}
+.ftb .ftb-tw-r:not(.ftb-tw-live)>b{flex:0 1 auto;max-width:60%;text-align:right}
+.ftb .ftb-le-p{flex:none}
+.sbd-l{line-height:1.3}
+.cl-logos p{line-height:1.5}
+}
