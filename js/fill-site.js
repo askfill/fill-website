@@ -704,7 +704,7 @@
    STAGING ONLY until approved: runs on *.webflow.io, or anywhere with ?raster in the address. */
 (function(){
   if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
-  var RIB=16,SCALE=56,HI=0.10,SH=0.14,NS='http://www.w3.org/2000/svg';
+  var RIB=16,SCALE=56,HI=0.05,SH=0.12,NS='http://www.w3.org/2000/svg';
   function enc(s){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
   function tile(stops){return enc("<svg xmlns='http://www.w3.org/2000/svg' width='"+RIB+"' height='"+RIB+"'><defs><linearGradient id='g' x1='0' x2='1'>"+stops+"</linearGradient></defs><rect width='"+RIB+"' height='"+RIB+"' fill='url(#g)'/></svg>");}
   function filterDef(){
@@ -712,7 +712,7 @@
     var ramp=tile("<stop offset='0' stop-color='rgb(0,128,0)'/><stop offset='1' stop-color='rgb(255,128,0)'/>");
     var edge=tile("<stop offset='0' stop-color='#fff' stop-opacity='"+HI+"'/><stop offset='0.18' stop-color='#fff' stop-opacity='0'/><stop offset='0.7' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='"+SH+"'/>");
     var svg=document.createElementNS(NS,'svg');svg.setAttribute('width','0');svg.setAttribute('height','0');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');svg.style.position='absolute';
-    svg.innerHTML='<filter id="fill-reed" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">'
+    svg.innerHTML='<filter id="fill-reed" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">'
       +'<feImage href="'+ramp+'" x="0" y="0" width="'+RIB+'" height="'+RIB+'" preserveAspectRatio="none" result="t"/><feTile in="t" result="map"/>'
       +'<feDisplacementMap in="SourceGraphic" in2="map" scale="'+SCALE+'" xChannelSelector="R" yChannelSelector="G" result="d"/>'
       +'<feImage href="'+edge+'" x="0" y="0" width="'+RIB+'" height="'+RIB+'" preserveAspectRatio="none" result="e0"/><feTile in="e0" result="e1"/>'
