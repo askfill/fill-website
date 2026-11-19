@@ -745,6 +745,7 @@
       [null,'::before','::after'].forEach(function(pe){
         var key='fr'+(pe?pe.replace(/:/g,''):'');if(el.hasAttribute('data-'+key))return;
         var cs=getComputedStyle(el,pe),bi=cs.backgroundImage;if(bi.indexOf('radial-gradient')<0&&!(/url\(/.test(bi)&&/blur/.test(cs.filter)))return; /* glows, and blurred photos used as light (Product Source card) */
+        if(el.matches('.fh-phi')&&/^\/size\/(midsize|enterprises)\/?$/.test(location.pathname))return; /* Mid-size and Enterprise heroes stay plain (decided 19 Nov) */
         if(pe&&(cs.content==='none'||cs.content==='normal'))return;
         var w=pe?parseFloat(cs.width):el.offsetWidth,h=pe?parseFloat(cs.height):el.offsetHeight;
         if(!(w>=300&&h>=200))return;
