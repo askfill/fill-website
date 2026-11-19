@@ -1069,3 +1069,142 @@
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
 })();
+
+/* ===== Job applications without an ATS (job-board pages) =====
+   Dover was closed on 19 Nov 2026, so the "Apply" links on /job-board/* pages led nowhere. This turns the bottom
+   "Ready to join Fill?" block into a short application form and points the "Apply" buttons at it.
+   The form posts to a Google Apps Script web app in Fill's Google Workspace (its code is not in this repo): the CV goes to a
+   Drive folder, a row goes into the "Fill applications inbox" sheet, and the hiring channel in Slack gets a short
+   note. Nothing is stored at Webflow. While APPLY_URL is empty the form runs in test mode and sends nothing.
+   STAGING ONLY for now: runs on *.webflow.io or with ?apply in the URL. */
+(function(){
+  if(!/^\/job-board\//.test(location.pathname))return;
+  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]apply\b/.test(location.search))return;
+  var APPLY_URL='';
+  var MAX=10*1024*1024,KEEP='12 months';
+  var CSS=''
+  +'.job-bottom-cta.ja-on{display:block!important;text-align:left}'
+  +'.ja-on .job-bottom-cta-title{text-align:center}'
+  +'.ja-on .job-back-link-bottom{display:block;text-align:center;margin-top:24px}'
+  +'.ja{max-width:640px;margin:24px auto 0;scroll-margin-top:110px;font-family:"DM Sans",sans-serif;color:#14141C}'
+  +'.ja-card{background:#fff;border:1px solid #ECEAE6;border-radius:24px;padding:32px;box-shadow:0 1px 2px rgba(20,20,28,.04),0 16px 40px rgba(20,20,28,.06)}'
+  +'.ja-lead{margin:0 0 24px;font-size:15px;line-height:1.5;color:#6B6B78;text-align:center}'
+  +'.ja-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}'
+  +'.ja-f{display:block;margin:0 0 16px}'
+  +'.ja-l{display:block;margin:0 0 6px;font-size:14px;font-weight:500;color:#3A3A46}.ja-l small{font-weight:400;color:#8A8A96;font-size:13px}'
+  +'.ja input[type=text],.ja input[type=email],.ja input[type=url],.ja textarea{display:block;width:100%;box-sizing:border-box;height:48px;padding:0 14px;border:1px solid #E4E2DE;border-radius:12px;background:#fff;font:inherit;font-size:15px;color:#14141C;transition:border-color .15s,box-shadow .15s;margin:0}'
+  +'.ja textarea{height:auto;min-height:112px;padding:12px 14px;line-height:1.5;resize:vertical}'
+  +'.ja input:focus,.ja textarea:focus{outline:none;border-color:#3E63E6;box-shadow:0 0 0 4px rgba(62,99,230,.14)}'
+  +'.ja [aria-invalid=true]{border-color:#C2412D!important}'
+  +'.ja-drop{display:flex;align-items:center;gap:14px;padding:16px;border:1.5px dashed #D6D3D1;border-radius:14px;background:#FAFAF9;cursor:pointer;transition:border-color .15s,background .15s}'
+  +'.ja-drop:hover,.ja-drop.ja-over{border-color:#3E63E6;background:#F4F6FE}'
+  +'.ja-drop:focus-within{border-color:#3E63E6;box-shadow:0 0 0 4px rgba(62,99,230,.14)}'
+  +'.ja-drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}'
+  +'.ja-ic{width:40px;height:40px;border-radius:10px;background:#fff;border:1px solid #ECEAE6;display:grid;place-items:center;flex:none}'
+  +'.ja-ic svg{width:20px;height:20px;fill:none;stroke:#14141C;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}'
+  +'.ja-dt{flex:1;min-width:0;font-size:15px;line-height:1.35}.ja-dt b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ja-dt span{font-size:13px;color:#6B6B78}'
+  +'.ja-x{flex:none;border:0;background:none;padding:6px 8px;border-radius:8px;font:inherit;font-size:14px;color:#3E63E6;cursor:pointer}.ja-x:hover{background:#EEF1FD}'
+  +'.ja-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}'
+  +'.ja-note{margin:4px 0 20px;font-size:13px;line-height:1.5;color:#6B6B78}.ja-note a{color:#14141C;text-decoration:underline;text-underline-offset:2px}'
+  +'.ja-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;box-sizing:border-box;height:48px;min-height:48px;padding:0 24px;border:0;border-radius:12px;background:#14141C;color:#fff;font:inherit;font-size:15px;font-weight:500;line-height:1;cursor:pointer;transition:background .15s,transform .15s}'
+  +'.ja-btn:hover{background:#2A2A35}.ja-btn:active{transform:translateY(1px)}.ja-btn[disabled]{opacity:.6;cursor:default}'
+  +'.ja-sp{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:ja-spin .8s linear infinite;display:none}.ja-busy .ja-sp{display:block}'
+  +'@keyframes ja-spin{to{transform:rotate(360deg)}}'
+  +'.ja-err{margin:12px 0 0;font-size:14px;color:#C2412D;min-height:0}.ja-err:empty{display:none}'
+  +'.ja-test{margin:12px 0 0;font-size:13px;color:#8A8A96}'
+  +'.ja-done{text-align:center;padding:16px 0}.ja-done[hidden]{display:none}'
+  +'.ja-ok{width:48px;height:48px;border-radius:50%;background:#3E63E6;display:grid;place-items:center;margin:0 auto 16px}.ja-ok svg{width:22px;height:22px}'
+  +'.ja-done h3{margin:0 0 8px;font-family:inherit;font-size:20px;font-weight:500;line-height:1.3;color:#14141C}.ja-done p{margin:0;font-size:15px;line-height:1.5;color:#6B6B78}'
+  +'@media (max-width:600px){.ja-card{padding:20px;border-radius:20px}.ja-row{grid-template-columns:1fr;gap:0}.ja-btn{width:100%}}'
+  +'@media (prefers-reduced-motion:reduce){.ja-sp{animation-duration:2.4s}.ja *{transition:none!important}}';
+  var FILE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>';
+  var OK='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7.5"/></svg>';
+  var ERR={invalid:'Check your name and email address.',linkedin:'That doesn\'t look like a LinkedIn profile link.',too_big:'Your CV is over 10 MB. Try a smaller PDF.',not_pdf:'Your CV needs to be a PDF.',server:'Something went wrong on our side. Please try again in a minute.',network:'We couldn\'t reach our inbox. Check your connection and try again.'};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  function go(){
+    var cta=document.querySelector('.job-bottom-cta');if(!cta||cta.classList.contains('ja-on'))return;
+    if(!document.getElementById('fill-apply-css')){var st=document.createElement('style');st.id='fill-apply-css';st.textContent=CSS;document.head.appendChild(st);}
+    var h1=document.querySelector('h1'),role=h1?h1.textContent.trim():'Spontaneous application';
+    cta.classList.add('ja-on');
+    var old=cta.querySelector('.job-apply-btn');if(old)old.remove();
+    var box=document.createElement('section');box.className='ja';box.id='apply';box.setAttribute('aria-label','Apply to Fill');
+    box.innerHTML='<div class="ja-card"><form class="ja-form" novalidate>'
+      +'<p class="ja-lead">Takes two minutes. A person at Fill reads every application.</p>'
+      +'<div class="ja-row"><label class="ja-f"><span class="ja-l">Name</span><input type="text" name="name" autocomplete="name" required maxlength="120"></label>'
+      +'<label class="ja-f"><span class="ja-l">Email</span><input type="email" name="email" autocomplete="email" required maxlength="200"></label></div>'
+      +'<label class="ja-f"><span class="ja-l">LinkedIn profile <small>(optional if you add a CV)</small></span><input type="url" name="linkedin" inputmode="url" placeholder="https://www.linkedin.com/in/..." maxlength="300"></label>'
+      +'<div class="ja-f"><span class="ja-l" id="ja-cvl">CV <small>(optional if you add LinkedIn)</small></span><label class="ja-drop" aria-labelledby="ja-cvl"><input type="file" name="cv" accept="application/pdf,.pdf"><span class="ja-ic">'+FILE+'</span><span class="ja-dt"><b>Add your CV</b><span>PDF, up to 10 MB. Drop it here or choose a file.</span></span></label></div>'
+      +'<label class="ja-f"><span class="ja-l">What would you like to work on? <small>(optional)</small></span><textarea name="message" rows="4" maxlength="3000"></textarea></label>'
+      +'<div class="ja-hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>'
+      +'<p class="ja-note">We only use your details to consider you for a role at Fill. The people hiring see them, and we delete them after '+KEEP+', or sooner if you ask. <a href="/privacy">Privacy policy</a></p>'
+      +'<button type="submit" class="ja-btn"><span class="ja-sp" aria-hidden="true"></span><span class="ja-bl">Send application</span></button>'
+      +'<p class="ja-err" role="alert"></p>'+(APPLY_URL?'':'<p class="ja-test">Test mode: nothing is sent yet.</p>')
+      +'</form><div class="ja-done" hidden tabindex="-1"><div class="ja-ok">'+OK+'</div><h3></h3><p>We read applications once a month and will get back to you by email.</p></div></div>';
+    var title=cta.querySelector('.job-bottom-cta-title'),back=cta.querySelector('.job-back-link-bottom');
+    if(back)cta.insertBefore(box,back);else cta.appendChild(box);
+    if(title&&!title.id)title.id='ja-title';
+
+    /* the old promise to keep data with no end date */
+    [].forEach.call(document.querySelectorAll('.w-richtext p'),function(p){
+      if(/retain your information/i.test(p.textContent))p.textContent='As this is an open application, our response time may be longer than usual. If your experience matches what we need, we\'ll contact you. Otherwise, we keep your application for '+KEEP+' in case a suitable role opens up, then delete it.';
+    });
+
+    var form=box.querySelector('form'),f=form.elements,err=box.querySelector('.ja-err'),btn=box.querySelector('.ja-btn'),done=box.querySelector('.ja-done');
+    var drop=box.querySelector('.ja-drop'),dt=drop.querySelector('.ja-dt'),started=Date.now(),cv=null;
+
+    [].forEach.call(document.querySelectorAll('a.job-apply-btn'),function(a){
+      a.setAttribute('href','#apply');a.removeAttribute('target');a.removeAttribute('rel');
+      a.addEventListener('click',function(e){e.preventDefault();box.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});setTimeout(function(){f.name.focus({preventScroll:true});},450);});
+    });
+
+    function showFile(){
+      if(cv){dt.innerHTML='<b>'+esc(cv.name)+'</b><span>'+(cv.size/1048576).toFixed(1).replace('.0','')+' MB</span>';
+        if(!drop.querySelector('.ja-x')){var x=document.createElement('button');x.type='button';x.className='ja-x';x.textContent='Remove';x.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();cv=null;f.cv.value='';showFile();});drop.appendChild(x);}}
+      else{dt.innerHTML='<b>Add your CV</b><span>PDF, up to 10 MB. Drop it here or choose a file.</span>';var x2=drop.querySelector('.ja-x');if(x2)x2.remove();}
+    }
+    function pick(file){
+      err.textContent='';
+      if(!file)return;
+      if(!(file.type==='application/pdf'||/\.pdf$/i.test(file.name))){err.textContent=ERR.not_pdf;return;}
+      if(file.size>MAX){err.textContent=ERR.too_big;return;}
+      cv=file;showFile();
+    }
+    f.cv.addEventListener('change',function(){pick(f.cv.files[0]);});
+    ['dragenter','dragover'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.add('ja-over');});});
+    ['dragleave','drop'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove('ja-over');});});
+    drop.addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.files[0])pick(e.dataTransfer.files[0]);});
+
+    function bad(el,msg){el.setAttribute('aria-invalid','true');err.textContent=msg;el.focus();return false;}
+    function valid(){
+      [f.name,f.email,f.linkedin].forEach(function(el){el.removeAttribute('aria-invalid');});
+      if(!f.name.value.trim())return bad(f.name,'Add your name.');
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value.trim()))return bad(f.email,'Add an email address we can reply to.');
+      var li=f.linkedin.value.trim();
+      if(li&&!/^https?:\/\/([a-z]{2,3}\.)?linkedin\.com\//i.test(li))return bad(f.linkedin,ERR.linkedin);
+      if(!li&&!cv)return bad(f.linkedin,'Add your CV or a LinkedIn link, so we can see your experience.');
+      return true;
+    }
+    function read(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result).split(',')[1]||'');};r.onerror=rej;r.readAsDataURL(file);});}
+    function busy(on){btn.disabled=on;form.classList.toggle('ja-busy',on);box.querySelector('.ja-bl').textContent=on?'Sending':'Send application';}
+    function finish(){
+      var first=f.name.value.trim().split(/\s+/)[0];
+      done.querySelector('h3').textContent='Thanks, '+first+'. Your application is in.';
+      form.hidden=true;form.style.display='none';done.hidden=false;done.focus();
+    }
+
+    form.addEventListener('submit',function(e){
+      e.preventDefault();err.textContent='';
+      if(btn.disabled||!valid())return;
+      busy(true);
+      (cv?read(cv):Promise.resolve('')).then(function(b64){
+        var body={role:role,page:location.href,name:f.name.value.trim(),email:f.email.value.trim(),linkedin:f.linkedin.value.trim(),message:f.message.value.trim(),website:f.website.value,started:started,cv:cv?{name:cv.name,data:b64}:null};
+        if(!APPLY_URL){console.info('[apply] test mode, nothing sent',{role:body.role,name:body.name,cv:cv?cv.name:null});return new Promise(function(r){setTimeout(function(){r({ok:true});},900);});}
+        return fetch(APPLY_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),redirect:'follow'}).then(function(r){return r.json();});
+      }).then(function(res){
+        if(res&&res.ok)finish();else{busy(false);err.textContent=ERR[(res&&res.error)]||ERR.server;}
+      }).catch(function(){busy(false);err.textContent=ERR.network;});
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+})();
