@@ -1076,10 +1076,9 @@
    The form posts to a Google Apps Script web app in Fill's Google Workspace (its code is not in this repo): the CV goes to a
    Drive folder, a row goes into the "Fill applications inbox" sheet, and the hiring channel in Slack gets a short
    note. Nothing is stored at Webflow. If APPLY_URL is emptied the form runs in test mode and sends nothing.
-   STAGING ONLY for now: runs on *.webflow.io or with ?apply in the URL. */
+   Live on fill.work since 19 Nov 2026. */
 (function(){
   if(!/^\/job-board\//.test(location.pathname))return;
-  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]apply\b/.test(location.search))return;
   var APPLY_URL='https://script.google.com/macros/s/AKfycbwFfERHFxCUJFS0xFvmp1kXlJKdyQzUigOoNf_JfJkJEJZVkzU5TZ9jCEQnhenRyhc/exec';
   var MAX=10*1024*1024,KEEP='24 months';
   var CSS=''
