@@ -733,7 +733,7 @@
   }
   var css=document.createElement('style');css.id='fill-raster-css';var n=0;
   /* the faint square grids behind the dark heroes (Agents hero, Agents rule-card stage) would cross the ribs, so they go wherever the raster runs */
-  css.textContent='.op-stage::before,.agf-grid{display:none!important}'
+  css.textContent='.op-stage::before,.agf-grid{display:none!important}.chp-panel{background-image:none!important}'
   /* Product three-jobs cards: the Control and Automate glows sat behind their windows, so the ribs had no colour to show.
      Control rises behind its window in sundown blue; Automate rises from the lower left, under the text. */
     +'.dr-c::before{top:-60px!important;left:-60px!important;width:860px!important;height:640px!important;background:radial-gradient(50% 50%,rgba(62,99,230,.5) 0%,rgba(143,166,242,.38) 45%,rgba(217,226,251,0) 75%)!important}'
@@ -754,7 +754,7 @@
         if(WK&&el.matches('.gf-glw,.gf-gl,.agf-glow'))return;
         /* how much a transform shrinks it on screen (its own transform plus its parents') */
         var shown=pe?0:el.getBoundingClientRect().width,k=shown&&w?shown/w:1;
-        n++;el.setAttribute('data-'+key,n);var sel='[data-'+key+'="'+n+'"]'+(pe||'');
+        n++;el.setAttribute('data-'+key,n);var sel=':is([data-'+key+'="'+n+'"],#fr-x#fr-x)'+(pe||''); /* :is() with an unused double id lifts the rule above id-scoped site rules (e.g. the homepage chapter glows) */
         if(WK){rules+=sel+'{'+maskFor(Math.max(8,Math.round(10/(k>0?k:1))))+'}';return;}
         var rib=(k>0&&k<0.45)?Math.min(64,Math.round(RIB*0.5/k/4)*4):RIB;
         var base=cs.filter.replace(/\s*url\([^)]*\)/g,'').trim();
