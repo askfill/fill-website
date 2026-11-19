@@ -982,3 +982,90 @@
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
+
+/* ===== Footer sign-off: the Fill mark on a moving sundown haze (every page, .l8-footcloud) =====
+   The thin blue strip at the bottom of the shared footer becomes a 440 px band (300 px on phones): a deep sundown
+   haze seen through reeded glass, a low horizon of light with a slow sheen, darker corners, a soft halo behind the
+   mark, and "Agents do the admin, people decide." It fades up out of the black footer.
+   Chosen 19 Nov 2026 from the placements artifact MdAvwRGc ("Haze on Home", option 1).
+   Drawn on one canvas, only while on screen; reduced motion shows one still frame.
+   STAGING ONLY for now: runs on *.webflow.io or with ?footerhaze in the URL. */
+(function(){
+  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]footerhaze\b/.test(location.search))return;
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var LOGO='<svg viewBox="0 0 1068 495" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="236" cy="136.5" rx="50" ry="49.5" fill="currentColor"/><circle cx="323.5" cy="185.5" r="49.5" fill="currentColor"/><circle cx="323.5" cy="185.5" r="49.5" stroke="currentColor"/><ellipse cx="323.5" cy="286" rx="49.5" ry="50" fill="currentColor"/><ellipse cx="236" cy="334.5" rx="50" ry="49.5" fill="currentColor"/><ellipse cx="148.5" cy="286" rx="49.5" ry="50" fill="currentColor"/><circle cx="148.5" cy="185.5" r="49.5" fill="currentColor"/><path d="M490.964 386C485.665 386 481.59 383.554 481.59 379.071V377.848C481.59 367.659 497.485 363.99 497.485 346.872V135.744C497.485 118.218 481.59 114.957 481.59 104.767V103.137C481.59 99.0611 485.258 96.6156 490.556 96.6156H675.192C683.343 96.6156 686.604 100.284 687.827 108.436L697.609 156.123C698.832 163.052 695.163 166.72 689.457 166.72H687.419C667.855 166.72 656.035 121.478 629.95 121.478H576.149C567.182 121.478 559.846 125.554 559.846 138.597V238.047H614.869C631.988 238.047 636.471 207.886 647.069 207.886H650.329C654.813 207.886 657.258 211.554 657.258 216.853V282.474C657.258 287.365 654.813 291.033 650.329 291.033H647.069C636.471 291.033 631.988 262.502 614.869 262.502H559.846V346.872C559.846 363.99 577.372 367.659 577.372 377.848V379.071C577.372 383.554 573.703 386 567.997 386H490.964ZM725.299 386C719.593 386 716.332 383.147 716.332 379.071V377.441C716.332 367.251 731.82 363.99 731.82 346.464V254.35C731.82 236.417 716.332 231.933 716.332 222.967V221.744C716.332 218.076 719.593 216.038 724.484 213.185L775.839 187.914C786.029 183.023 792.143 188.73 792.143 195.658V346.464C792.143 363.99 809.669 367.251 809.669 377.441V379.071C809.669 383.147 806.001 386 800.294 386H725.299ZM722.038 125.554C722.038 105.175 738.342 90.0943 762.389 90.0943C786.437 90.0943 801.925 105.175 801.925 125.554C801.925 146.341 786.437 161.421 762.389 161.421C738.342 161.421 722.038 146.341 722.038 125.554ZM839.458 386C833.751 386 830.083 383.147 830.083 379.071V377.441C830.083 367.251 845.979 363.99 845.979 346.872V146.341C845.979 128 830.083 123.924 830.083 115.364V113.734C830.083 109.658 833.344 107.62 838.235 105.582L889.59 80.3123C900.187 75.0137 906.301 80.7199 906.301 87.6488V346.872C906.301 363.99 923.827 367.251 923.827 377.441V379.071C923.827 383.147 919.752 386 914.453 386H839.458ZM954.09 386C948.384 386 944.716 383.147 944.716 379.071V377.441C944.716 367.251 960.612 363.99 960.612 346.872V146.341C960.612 128 944.716 123.924 944.716 115.364V113.734C944.716 109.658 947.977 107.62 952.868 105.582L1004.22 80.3123C1014.82 75.0137 1020.93 80.7199 1020.93 87.6488V346.872C1020.93 363.99 1038.46 367.251 1038.46 377.441V379.071C1038.46 383.147 1034.38 386 1029.09 386H954.09Z" fill="currentColor"/></svg>';
+  var CSS=''
+  +'.l8-footcloud.fhz-on{height:440px!important;-webkit-mask-image:none!important;mask-image:none!important;background:#0a0a0a!important}'
+  +'.fhz-on .ft-rise{display:none!important}'
+  +'.fhz{position:absolute;inset:0;overflow:hidden;pointer-events:none}'
+  +'.fhz canvas{position:absolute;left:0;top:0;width:100%;height:100%;display:block}'
+  +'.fhz-fade{position:absolute;inset:0;background:linear-gradient(#0a0a0a 0%,rgba(10,10,10,.6) 24%,rgba(10,10,10,0) 58%)}'
+  +'.fhz-type{position:absolute;left:0;right:0;top:29%;display:flex;flex-direction:column;align-items:center;gap:22px;padding:0 16px;text-align:center}'
+  +'.fhz-type svg{display:block;height:84px;width:auto;color:#fff;filter:drop-shadow(0 2px 18px rgba(11,18,64,.35))}'
+  +'.fhz-type p{margin:0;font:400 20px/1.4 "DM Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:.005em;color:rgba(255,255,255,.88);text-shadow:0 1px 14px rgba(11,18,64,.45)}'
+  +'@media (max-width:767px){.l8-footcloud.fhz-on{height:300px!important}.fhz-type{top:27%;gap:14px}.fhz-type svg{height:56px}.fhz-type p{font-size:16px}}';
+
+  /* sundown blues kept deep: no paper-white at the bottom */
+  var MOODS=[
+    {top:'#04061a',mid:'#0B1240',low:'#2A4BD0',a:'#1C34B4',b:'#3E63E6',c:'#020311'},
+    {top:'#0B1240',mid:'#1C34B4',low:'#5A7BEA',a:'#3E63E6',b:'#1C34B4',c:'#060a26'},
+    {top:'#04061a',mid:'#0B1240',low:'#3E63E6',a:'#1C34B4',b:'#5A7BEA',c:'#020311'},
+    {top:'#020311',mid:'#0B1240',low:'#1C34B4',a:'#0B1240',b:'#3E63E6',c:'#000000'}
+  ],MOOD_MS=5000;
+  function rgb(h){var n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255];}
+  function mix(a,b,f){a=rgb(a);b=rgb(b);return [0,1,2].map(function(i){return Math.round(a[i]+(b[i]-a[i])*f);});}
+  function css(c,al){if(typeof c==='string')c=rgb(c);return 'rgba('+c[0]+','+c[1]+','+c[2]+','+(al===undefined?1:al)+')';}
+  function smooth(x){x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);}
+  function moodAt(t){var ph=t/MOOD_MS,i=Math.floor(ph)%MOODS.length,f=smooth(((ph%1)-0.62)/0.38),m1=MOODS[i],m2=MOODS[(i+1)%MOODS.length],o={};Object.keys(m1).forEach(function(k){o[k]=mix(m1[k],m2[k],f);});return o;}
+  function blob(o,cx,cy,r,c,a){var g=o.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,css(c,a));g.addColorStop(1,css(c,0));o.fillStyle=g;o.fillRect(cx-r,cy-r,r*2,r*2);}
+  function haze(o,w,h,t){
+    var m=moodAt(t),g=o.createLinearGradient(0,0,0,h);g.addColorStop(0,css(m.top));g.addColorStop(0.5,css(m.mid));g.addColorStop(1,css(m.low));
+    o.fillStyle=g;o.fillRect(0,0,w,h);var s=t*0.001;
+    blob(o,w*(0.25+0.2*Math.sin(s*0.31)),h*(0.42+0.12*Math.cos(s*0.23)),w*0.75,m.a,0.85);
+    blob(o,w*(0.8+0.15*Math.cos(s*0.27)),h*(0.25+0.15*Math.sin(s*0.19)),w*0.6,m.c,0.9);
+    blob(o,w*(0.6+0.25*Math.sin(s*0.17+1)),h*(0.62+0.1*Math.sin(s*0.29)),w*0.55,m.b,0.7);
+    for(var k=0;k<7;k++){o.beginPath();o.moveTo(0,h);for(var x=0;x<=w;x+=4){var u=x/w;o.lineTo(x,h*(0.6+0.11*Math.sin(u*5.2+s*0.42)+0.06*Math.sin(u*11-s*0.71)+0.04*Math.sin(u*2.1+s*0.23))+k*5);}o.lineTo(w,h);o.closePath();o.fillStyle=css(m.low,0.16);o.fill();}
+    blob(o,w*(0.5+0.3*Math.sin(s*0.13)),h*1.02,w*0.7,m.low,0.45);
+    /* a low horizon of light, a slow sheen crossing it, shade pooled in the bottom corners */
+    var y0=h*(0.74+0.03*Math.sin(s*0.21));o.save();o.globalCompositeOperation='lighter';
+    o.save();o.translate(w*(0.5+0.1*Math.sin(s*0.15)),y0);o.scale(1,0.32);blob(o,0,0,w*0.75,'#1C34B4',0.55);blob(o,0,0,w*0.45,'#3E63E6',0.45);blob(o,0,0,w*0.22,'#8FA6F2',0.35);o.restore();
+    var line=o.createLinearGradient(0,0,w,0);line.addColorStop(0,'rgba(143,166,242,0)');line.addColorStop(0.5,'rgba(206,214,248,.35)');line.addColorStop(1,'rgba(143,166,242,0)');o.fillStyle=line;o.fillRect(0,y0-0.6,w,1.2);
+    var bx=w*(((s*0.035)%1.6)-0.3),beam=o.createLinearGradient(bx-w*0.22,0,bx+w*0.22,h);beam.addColorStop(0,'rgba(143,166,242,0)');beam.addColorStop(0.5,'rgba(143,166,242,.16)');beam.addColorStop(1,'rgba(143,166,242,0)');o.fillStyle=beam;o.fillRect(0,0,w,h);
+    o.restore();o.globalCompositeOperation='multiply';blob(o,0,h,w*0.45,'#0B1240',0.55);blob(o,w,h,w*0.45,'#0B1240',0.55);o.globalCompositeOperation='source-over';
+  }
+  /* reeded glass: each rib shows a slice of the haze squeezed into it, lit on the left, shaded on the right */
+  function reeded(ctx,off,W,H,rib,t){
+    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';var sc=off.width/W,MAG=2.4,x,sh;
+    for(x=0;x<W;x+=rib){var srcW=rib*MAG,shift=Math.sin(x*0.004+t*0.00012)*rib*0.35,sx=(x+rib/2-srcW/2+shift)*sc,sw=srcW*sc;sx=Math.max(0,Math.min(off.width-sw,sx));ctx.drawImage(off,sx,0,sw,off.height,x,0,rib+0.5,H);}
+    sh=ctx.createLinearGradient(0,0,rib,0);sh.addColorStop(0,'rgba(255,255,255,.10)');sh.addColorStop(0.18,'rgba(255,255,255,.03)');sh.addColorStop(0.7,'rgba(0,0,0,0)');sh.addColorStop(1,'rgba(0,0,0,.13)');
+    for(x=0;x<W;x+=rib){ctx.save();ctx.translate(x,0);ctx.fillStyle=sh;ctx.fillRect(0,0,rib,H);ctx.restore();}
+  }
+  /* smooth light over the glass: a halo behind the mark, the edges darker */
+  function ellipse(ctx,W,H,cx,cy,rx,ry,stops){ctx.save();ctx.translate(cx,cy);ctx.scale(1,ry/rx);var g=ctx.createRadialGradient(0,0,0,0,0,rx);stops.forEach(function(s){g.addColorStop(s[0],s[1]);});ctx.fillStyle=g;var big=Math.max(W,H*rx/ry)*3;ctx.fillRect(-big,-big,big*2,big*2);ctx.restore();}
+  function mount(fc){
+    if(fc.classList.contains('fhz-on'))return;fc.classList.add('fhz-on');
+    var box=document.createElement('div');box.className='fhz';box.setAttribute('aria-hidden','true');
+    box.innerHTML='<canvas></canvas><div class="fhz-fade"></div><div class="fhz-type">'+LOGO+'<p>Agents do the admin, people decide.</p></div>';
+    fc.appendChild(box);
+    var c=box.querySelector('canvas'),ctx=c.getContext('2d'),off=document.createElement('canvas'),o=off.getContext('2d'),on=false,raf=0,last=0,start=performance.now();
+    function draw(t){
+      var dpr=Math.min(2,window.devicePixelRatio||1),w=c.offsetWidth,h=c.offsetHeight;if(!w||!h)return;
+      var W=Math.round(w*dpr),H=Math.round(h*dpr);if(c.width!==W||c.height!==H){c.width=W;c.height=H;}
+      var ow=216,oh=Math.max(1,Math.round(216*H/W));if(off.width!==ow||off.height!==oh){off.width=ow;off.height=oh;}
+      haze(o,ow,oh,t);reeded(ctx,off,W,H,(w<768?10:14)*dpr,t);
+      ellipse(ctx,W,H,W*0.5,H*0.4,W*0.6,H*0.46,[[0,'rgba(143,166,242,.20)'],[0.7,'rgba(143,166,242,0)']]);
+      ellipse(ctx,W,H,W*0.5,H*0.62,W*1.2,H*0.95,[[0.52,'rgba(2,3,17,0)'],[1,'rgba(2,3,17,.55)']]);
+    }
+    function frame(now){raf=0;if(!on||document.hidden)return;if(now-last>32){last=now;draw(2500+now-start);}raf=requestAnimationFrame(frame);}
+    function kick(){if(RM){draw(3000);return;}if(on&&!raf&&!document.hidden)raf=requestAnimationFrame(frame);}
+    if('IntersectionObserver' in window){new IntersectionObserver(function(es){on=es[0].isIntersecting;if(on){draw(2500+performance.now()-start);kick();}},{rootMargin:'200px'}).observe(fc);}else{on=true;kick();}
+    document.addEventListener('visibilitychange',kick);
+    var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){draw(RM?3000:2500+performance.now()-start);},120);});
+  }
+  function go(){
+    var list=document.querySelectorAll('.l8-footcloud');if(!list.length)return;
+    if(!document.getElementById('fill-footer-haze-css')){var s=document.createElement('style');s.id='fill-footer-haze-css';s.textContent=CSS;document.head.appendChild(s);}
+    [].forEach.call(list,mount);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+})();
