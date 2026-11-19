@@ -830,9 +830,8 @@
    an "In Fill now" line narrates, and the panel below becomes a running record of this one request.
    Chosen 19 Nov 2026 (option 06 of 10, artifact ScMXCDJF). The section's glow, ribs and headline stay as they are;
    the click-a-tile panels are replaced.
-   STAGING ONLY until approved: runs on *.webflow.io, or anywhere with ?agentflow in the address. */
+   Live on fill.work since 19 Nov 2026. */
 (function(){
-  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]agentflow\b/.test(location.search))return;
   var NS='http://www.w3.org/2000/svg',RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var CSS=''
   +'.fs-nf2 .fs-nf-d>:not(.fs-nf-glow):not(.fao-wrap){display:none!important}.fs-nf2 .fs-nf-ps{display:none!important}'
