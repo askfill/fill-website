@@ -742,6 +742,9 @@
         if(pe&&(cs.content==='none'||cs.content==='normal'))return;
         var w=pe?parseFloat(cs.width):el.offsetWidth,h=pe?parseFloat(cs.height):el.offsetHeight;
         if(!(w>=300&&h>=200))return;
+        /* window halos (glass frames, agents window) show almost only as blur spilling past their own box, which a
+           mask would cut away, so on WebKit they keep their plain glow */
+        if(WK&&el.matches('.gf-glw,.gf-gl,.agf-glow'))return;
         /* how much a transform shrinks it on screen (its own transform plus its parents') */
         var shown=pe?0:el.getBoundingClientRect().width,k=shown&&w?shown/w:1;
         n++;el.setAttribute('data-'+key,n);var sel='[data-'+key+'="'+n+'"]'+(pe||'');
