@@ -742,3 +742,34 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
   setTimeout(go,1300);addEventListener('load',function(){setTimeout(go,300);});
 })();
+/* ===== landing sun drifts behind the raster =====
+   The homepage sun (.og) keeps its scroll animation (transform); here only the light inside it moves, so the ribs
+   stay still while the sundown wanders behind them: the base gradient rises and settles, a pale haze and a deeper
+   core drift on their own slow rhythms (19-57 s). About 30 updates a second, paused off screen, in a hidden tab
+   and for reduced motion. STAGING ONLY until approved (same gate as the raster). */
+(function(){
+  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  function start(){
+    var el=document.querySelector('.op-box .og')||document.querySelector('.og');if(!el||el.getAttribute('data-drift'))return;
+    var base=getComputedStyle(el).backgroundImage;if(base.indexOf('radial-gradient')<0)return;
+    el.setAttribute('data-drift','1');
+    el.style.backgroundImage='radial-gradient(closest-side,rgba(143,166,242,.6),rgba(143,166,242,0)),radial-gradient(closest-side,rgba(28,52,180,.5),rgba(28,52,180,0)),'+base;
+    el.style.backgroundRepeat='no-repeat';
+    var on=true,last=0,t0=performance.now();
+    if('IntersectionObserver' in window)new IntersectionObserver(function(es){on=es[0].isIntersecting;}).observe(el);
+    function f(x){return x.toFixed(2);}
+    function tick(now){
+      requestAnimationFrame(tick);
+      if(!on||document.hidden||now-last<33)return;last=now;
+      var s=(now-t0)/1000+4,S=Math.sin;
+      var bx=50+35*S(s*.21),by=50+50*S(s*.33),k=1.14+.04*S(s*.17);
+      var hx=50+34*S(s*.13+1),hy=68+16*S(s*.19),cx=50+20*S(s*.11+2),cy=90+8*S(s*.23);
+      el.style.backgroundSize='48% 42%,42% 36%,'+f(k*100)+'% '+f((k+.08)*100)+'%';
+      el.style.backgroundPosition=f(hx)+'% '+f(hy)+'%,'+f(cx)+'% '+f(cy)+'%,'+f(bx)+'% '+f(by)+'%';
+    }
+    requestAnimationFrame(tick);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+  addEventListener('load',start);
+})();
