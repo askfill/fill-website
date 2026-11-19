@@ -1086,12 +1086,13 @@
   +'.job-bottom-cta.ja-on{display:block!important;text-align:left}'
   +'.ja-on .job-bottom-cta-title{text-align:center}'
   +'.ja-on .job-back-link-bottom{display:block;text-align:center;margin-top:24px}'
-  +'.ja{max-width:640px;margin:24px auto 0;scroll-margin-top:110px;font-family:"DM Sans",sans-serif;color:#14141C}'
+  +'.ja{max-width:640px;margin:24px auto 0;scroll-margin-top:110px;font-family:"DM Sans",sans-serif;font-weight:400;color:#14141C}'
+  +'.ja p,.ja span,.ja input,.ja textarea{font-weight:400}.ja ::placeholder{color:#A8A29E;font-weight:400;opacity:1}'
   +'.ja-card{background:#fff;border:1px solid #ECEAE6;border-radius:24px;padding:32px;box-shadow:0 1px 2px rgba(20,20,28,.04),0 16px 40px rgba(20,20,28,.06)}'
   +'.ja-lead{margin:0 0 24px;font-size:15px;line-height:1.5;color:#6B6B78;text-align:center}'
   +'.ja-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}'
   +'.ja-f{display:block;margin:0 0 16px}'
-  +'.ja-l{display:block;margin:0 0 6px;font-size:14px;font-weight:500;color:#3A3A46}.ja-l small{font-weight:400;color:#8A8A96;font-size:13px}'
+  +'.ja .ja-l{display:block;margin:0 0 6px;font-size:14px;line-height:1.4;font-weight:500;color:#3A3A46}.ja-l small{font-weight:400;color:#8A8A96;font-size:13px}'
   +'.ja input[type=text],.ja input[type=email],.ja input[type=url],.ja textarea{display:block;width:100%;box-sizing:border-box;height:48px;padding:0 14px;border:1px solid #E4E2DE;border-radius:12px;background:#fff;font:inherit;font-size:15px;color:#14141C;transition:border-color .15s,box-shadow .15s;margin:0}'
   +'.ja textarea{height:auto;min-height:112px;padding:12px 14px;line-height:1.5;resize:vertical}'
   +'.ja input:focus,.ja textarea:focus{outline:none;border-color:#3E63E6;box-shadow:0 0 0 4px rgba(62,99,230,.14)}'
@@ -1102,20 +1103,20 @@
   +'.ja-drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}'
   +'.ja-ic{width:40px;height:40px;border-radius:10px;background:#fff;border:1px solid #ECEAE6;display:grid;place-items:center;flex:none}'
   +'.ja-ic svg{width:20px;height:20px;fill:none;stroke:#14141C;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}'
-  +'.ja-dt{flex:1;min-width:0;font-size:15px;line-height:1.35}.ja-dt b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ja-dt span{font-size:13px;color:#6B6B78}'
+  +'.ja-dt{flex:1;min-width:0;font-size:15px;line-height:1.35}.ja .ja-dt b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ja-dt span{font-size:13px;color:#6B6B78}'
   +'.ja-x{flex:none;border:0;background:none;padding:6px 8px;border-radius:8px;font:inherit;font-size:14px;color:#3E63E6;cursor:pointer}.ja-x:hover{background:#EEF1FD}'
   +'.ja-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}'
   +'.ja-note{margin:4px 0 20px;font-size:13px;line-height:1.5;color:#6B6B78}.ja-note a{color:#14141C;text-decoration:underline;text-underline-offset:2px}'
   +'.ja-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;box-sizing:border-box;height:48px;min-height:48px;padding:0 24px;border:0;border-radius:12px;background:#14141C;color:#fff;font:inherit;font-size:15px;font-weight:500;line-height:1;cursor:pointer;transition:background .15s,transform .15s}'
   +'.ja-btn:hover{background:#2A2A35}.ja-btn:active{transform:translateY(1px)}.ja-btn[disabled]{opacity:.6;cursor:default}'
-  +'.ja-sp{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:ja-spin .8s linear infinite;display:none}.ja-busy .ja-sp{display:block}'
+  +'.ja .ja-bl{font-weight:500}.ja-sp{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:ja-spin .8s linear infinite;display:none}.ja-busy .ja-sp{display:block}'
   +'@keyframes ja-spin{to{transform:rotate(360deg)}}'
   +'.ja-err{margin:12px 0 0;font-size:14px;color:#C2412D;min-height:0}.ja-err:empty{display:none}'
   +'.ja-test{margin:12px 0 0;font-size:13px;color:#8A8A96}'
   +'.ja-done{text-align:center;padding:16px 0}.ja-done[hidden]{display:none}'
   +'.ja-ok{width:48px;height:48px;border-radius:50%;background:#3E63E6;display:grid;place-items:center;margin:0 auto 16px}.ja-ok svg{width:22px;height:22px}'
   +'.ja-done h3{margin:0 0 8px;font-family:inherit;font-size:20px;font-weight:500;line-height:1.3;color:#14141C}.ja-done p{margin:0;font-size:15px;line-height:1.5;color:#6B6B78}'
-  +'@media (max-width:600px){.ja-card{padding:20px;border-radius:20px}.ja-row{grid-template-columns:1fr;gap:0}.ja-btn{width:100%}}'
+  +'@media (max-width:600px){.job-bottom-cta.ja-on{padding-left:12px!important;padding-right:12px!important}.ja-card{padding:20px;border-radius:20px}.ja-row{grid-template-columns:1fr;gap:0}.ja-btn{width:100%}}'
   +'@media (prefers-reduced-motion:reduce){.ja-sp{animation-duration:2.4s}.ja *{transition:none!important}}';
   var FILE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>';
   var OK='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7.5"/></svg>';
@@ -1133,7 +1134,7 @@
       +'<p class="ja-lead">Takes two minutes. A person at Fill reads every application.</p>'
       +'<div class="ja-row"><label class="ja-f"><span class="ja-l">Name</span><input type="text" name="name" autocomplete="name" required maxlength="120"></label>'
       +'<label class="ja-f"><span class="ja-l">Email</span><input type="email" name="email" autocomplete="email" required maxlength="200"></label></div>'
-      +'<label class="ja-f"><span class="ja-l">LinkedIn profile <small>(optional if you add a CV)</small></span><input type="url" name="linkedin" inputmode="url" placeholder="https://www.linkedin.com/in/..." maxlength="300"></label>'
+      +'<label class="ja-f"><span class="ja-l">LinkedIn profile <small>(optional if you add a CV)</small></span><input type="url" name="linkedin" inputmode="url" placeholder="linkedin.com/in/your-name" maxlength="300"></label>'
       +'<div class="ja-f"><span class="ja-l" id="ja-cvl">CV <small>(optional if you add LinkedIn)</small></span><label class="ja-drop" aria-labelledby="ja-cvl"><input type="file" name="cv" accept="application/pdf,.pdf"><span class="ja-ic">'+FILE+'</span><span class="ja-dt"><b>Add your CV</b><span>PDF, up to 10 MB. Drop it here or choose a file.</span></span></label></div>'
       +'<label class="ja-f"><span class="ja-l">What would you like to work on? <small>(optional)</small></span><textarea name="message" rows="4" maxlength="3000"></textarea></label>'
       +'<div class="ja-hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>'
@@ -1180,7 +1181,7 @@
       [f.name,f.email,f.linkedin].forEach(function(el){el.removeAttribute('aria-invalid');});
       if(!f.name.value.trim())return bad(f.name,'Add your name.');
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value.trim()))return bad(f.email,'Add an email address we can reply to.');
-      var li=f.linkedin.value.trim();
+      var li=f.linkedin.value.trim();if(li&&!/^https?:\/\//i.test(li)){li='https://'+li.replace(/^\/+/,'');f.linkedin.value=li;}
       if(li&&!/^https?:\/\/([a-z]{2,3}\.)?linkedin\.com\//i.test(li))return bad(f.linkedin,ERR.linkedin);
       if(!li&&!cv)return bad(f.linkedin,'Add your CV or a LinkedIn link, so we can see your experience.');
       return true;
