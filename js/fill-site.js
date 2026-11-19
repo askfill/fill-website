@@ -1075,12 +1075,12 @@
    "Ready to join Fill?" block into a short application form and points the "Apply" buttons at it.
    The form posts to a Google Apps Script web app in Fill's Google Workspace (its code is not in this repo): the CV goes to a
    Drive folder, a row goes into the "Fill applications inbox" sheet, and the hiring channel in Slack gets a short
-   note. Nothing is stored at Webflow. While APPLY_URL is empty the form runs in test mode and sends nothing.
+   note. Nothing is stored at Webflow. If APPLY_URL is emptied the form runs in test mode and sends nothing.
    STAGING ONLY for now: runs on *.webflow.io or with ?apply in the URL. */
 (function(){
   if(!/^\/job-board\//.test(location.pathname))return;
   if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]apply\b/.test(location.search))return;
-  var APPLY_URL='';
+  var APPLY_URL='https://script.google.com/macros/s/AKfycbwFfERHFxCUJFS0xFvmp1kXlJKdyQzUigOoNf_JfJkJEJZVkzU5TZ9jCEQnhenRyhc/exec';
   var MAX=10*1024*1024,KEEP='24 months';
   var CSS=''
   +'.job-bottom-cta.ja-on{display:block!important;text-align:left}'
