@@ -701,27 +701,43 @@
    Every large radial-gradient glow is seen through vertical glass ribs: the glow is blurred as before, then a
    repeating ramp tile refracts it rib by rib (SVG displacement), and a faint edge per rib (shadow-weighted, drawn
    only where the glow has colour). Nothing is laid over the colour, so every glow keeps its full strength.
+   On WebKit a glow too large for its filter limit is left plain rather than blank. Glows are judged by their layout size (a glow shrunk by a transform, like the homepage sun on a phone, still
+   counts), and a glow shrunk below half size gets wider ribs, so its ribs still read on screen.
    STAGING ONLY until approved: runs on *.webflow.io, or anywhere with ?raster in the address. */
 (function(){
   if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
-  var RIB=16,SCALE=56,HI=0.05,SH=0.12,NS='http://www.w3.org/2000/svg';
+  var RIB=16,SCALE=56,HI=0.05,SH=0.12,NS='http://www.w3.org/2000/svg',made={},holder=null;
+  /* Safari and every browser on iPhone/iPad (WebKit) draw nothing for a filter fed by an image, tiled or not, so
+     there the ribs come from noise folded into a repeating ramp (feTurbulence + table), which WebKit renders. */
+  var ua=navigator.userAgent,WK=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(/Safari\//.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox|Android/.test(ua));
+  var FOLDS=(function(){var t=[];for(var i=0;i<14;i++)t.push(0,1);return t.join(' ');})();
   function enc(s){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
-  function tile(stops){return enc("<svg xmlns='http://www.w3.org/2000/svg' width='"+RIB+"' height='"+RIB+"'><defs><linearGradient id='g' x1='0' x2='1'>"+stops+"</linearGradient></defs><rect width='"+RIB+"' height='"+RIB+"' fill='url(#g)'/></svg>");}
-  function filterDef(){
-    if(document.getElementById('fill-reed'))return;
-    var ramp=tile("<stop offset='0' stop-color='rgb(0,128,0)'/><stop offset='1' stop-color='rgb(255,128,0)'/>");
-    var edge=tile("<stop offset='0' stop-color='#fff' stop-opacity='"+HI+"'/><stop offset='0.18' stop-color='#fff' stop-opacity='0'/><stop offset='0.7' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='"+SH+"'/>");
-    var svg=document.createElementNS(NS,'svg');svg.setAttribute('width','0');svg.setAttribute('height','0');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');svg.style.position='absolute';
-    svg.innerHTML='<filter id="fill-reed" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">'
-      +'<feImage href="'+ramp+'" x="0" y="0" width="'+RIB+'" height="'+RIB+'" preserveAspectRatio="none" result="t"/><feTile in="t" result="map"/>'
-      +'<feDisplacementMap in="SourceGraphic" in2="map" scale="'+SCALE+'" xChannelSelector="R" yChannelSelector="G" result="d"/>'
-      +'<feImage href="'+edge+'" x="0" y="0" width="'+RIB+'" height="'+RIB+'" preserveAspectRatio="none" result="e0"/><feTile in="e0" result="e1"/>'
-      +'<feComposite in="e1" in2="d" operator="atop"/></filter>';
-    document.body.appendChild(svg);
+  function tile(rib,stops){return enc("<svg xmlns='http://www.w3.org/2000/svg' width='"+rib+"' height='"+rib+"'><defs><linearGradient id='g' x1='0' x2='1'>"+stops+"</linearGradient></defs><rect width='"+rib+"' height='"+rib+"' fill='url(#g)'/></svg>");}
+  /* One filter per rib width: "fill-reed" for the standard 16 px, "fill-reed-32" and so on for shrunk glows. */
+  function filterFor(rib,tight){
+    var id=(rib===RIB?'fill-reed':'fill-reed-'+rib)+(tight?'-t':'');if(made[id])return id;
+    var reg=tight?'x="0" y="0" width="100%" height="100%"':'x="-15%" y="-15%" width="130%" height="130%"';
+    if(!holder){holder=document.createElementNS(NS,'svg');holder.setAttribute('width','0');holder.setAttribute('height','0');holder.setAttribute('aria-hidden','true');holder.setAttribute('focusable','false');holder.style.position='absolute';document.body.appendChild(holder);}
+    var ramp=tile(rib,"<stop offset='0' stop-color='rgb(0,128,0)'/><stop offset='1' stop-color='rgb(255,128,0)'/>");
+    var edge=tile(rib,"<stop offset='0' stop-color='#fff' stop-opacity='"+HI+"'/><stop offset='0.18' stop-color='#fff' stop-opacity='0'/><stop offset='0.7' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='"+SH+"'/>");
+    var sc=Math.round(SCALE*rib/RIB);
+    if(WK){
+      holder.insertAdjacentHTML('beforeend','<filter id="'+id+'" '+reg+' color-interpolation-filters="sRGB">'
+        +'<feTurbulence type="fractalNoise" baseFrequency="'+(0.03*RIB/rib).toFixed(4)+' 0" numOctaves="1" seed="7" result="n"/>'
+        +'<feComponentTransfer in="n" result="z"><feFuncR type="table" tableValues="'+FOLDS+'"/></feComponentTransfer>'
+        +'<feColorMatrix in="z" type="matrix" values="1 0 0 0 0  0 0 0 0 0.5  0 0 0 0 0  0 0 0 0 1" result="m"/>'
+        +'<feDisplacementMap in="SourceGraphic" in2="m" scale="'+Math.round(48*rib/RIB)+'" xChannelSelector="R" yChannelSelector="G"/></filter>');
+      made[id]=1;return id;
+    }
+    holder.insertAdjacentHTML('beforeend','<filter id="'+id+'" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">'
+      +'<feImage href="'+ramp+'" x="0" y="0" width="'+rib+'" height="'+rib+'" preserveAspectRatio="none" result="t"/><feTile in="t" result="map"/>'
+      +'<feDisplacementMap in="SourceGraphic" in2="map" scale="'+sc+'" xChannelSelector="R" yChannelSelector="G" result="d"/>'
+      +'<feImage href="'+edge+'" x="0" y="0" width="'+rib+'" height="'+rib+'" preserveAspectRatio="none" result="e0"/><feTile in="e0" result="e1"/>'
+      +'<feComposite in="e1" in2="d" operator="atop"/></filter>');
+    made[id]=1;return id;
   }
   var css=document.createElement('style');css.id='fill-raster-css';var n=0;
   function scan(){
-    filterDef();
     var rules='';
     [].forEach.call(document.querySelectorAll('body *'),function(el){
       if(el.closest('svg'))return;
@@ -729,11 +745,19 @@
         var key='fr'+(pe?pe.replace(/:/g,''):'');if(el.hasAttribute('data-'+key))return;
         var cs=getComputedStyle(el,pe);if(cs.backgroundImage.indexOf('radial-gradient')<0)return;
         if(pe&&(cs.content==='none'||cs.content==='normal'))return;
-        var r=el.getBoundingClientRect(),w=pe?(parseFloat(cs.width)||r.width):r.width,h=pe?(parseFloat(cs.height)||r.height):r.height;
-        if(w<300||h<200)return;
+        var w=pe?parseFloat(cs.width):el.offsetWidth,h=pe?parseFloat(cs.height):el.offsetHeight;
+        if(!(w>=300&&h>=200))return;
+        /* how much a transform shrinks it on screen (the element's own transform plus its parents') */
+        var shown=pe?0:el.getBoundingClientRect().width,k=shown&&w?shown/w:1,rib=RIB;
+        if(k>0&&k<0.45)rib=Math.min(64,Math.round(RIB*0.5/k/4)*4);
+        /* WebKit draws nothing for a filter larger than about 16.7 million device pixels: use a tight region when
+           the margin would pass it, and leave the glow plain when even that would. */
+        var tight=false;
+        if(WK){var dpr=window.devicePixelRatio||1,area=w*h*dpr*dpr,LIM=16000000;if(area*1.69>LIM){if(area>LIM*0.98)return;tight=true;}}
+        var id=filterFor(rib,tight);
         var base=cs.filter.replace(/\s*url\([^)]*\)/g,'').trim();
         n++;el.setAttribute('data-'+key,n);
-        rules+='[data-'+key+'="'+n+'"]'+(pe||'')+'{filter:'+(base&&base!=='none'?base+' ':'')+'url(#fill-reed)!important}';
+        rules+='[data-'+key+'="'+n+'"]'+(pe||'')+'{filter:'+(base&&base!=='none'?base+' ':'')+'url(#'+id+')!important}';
       });
     });
     if(rules){css.textContent+=rules;if(!css.parentNode)document.head.appendChild(css);}
