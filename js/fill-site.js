@@ -732,6 +732,8 @@
     return '-webkit-mask-image:'+m+'!important;mask-image:'+m+'!important';
   }
   var css=document.createElement('style');css.id='fill-raster-css';var n=0;
+  /* the faint square grids behind the dark heroes (Agents hero, Agents rule-card stage) would cross the ribs, so they go wherever the raster runs */
+  css.textContent='.op-stage::before,.agf-grid{display:none!important}';document.head.appendChild(css);
   function scan(){
     var rules='';
     [].forEach.call(document.querySelectorAll('body *'),function(el){
