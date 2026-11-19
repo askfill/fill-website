@@ -816,3 +816,12 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
   addEventListener('load',start);
 })();
+
+/* ===== no grid behind the hero panels =====
+   The faint square grid behind the hero product panels (.fh-phi::before, Mid-size, Enterprise and the other
+   panel heroes) is removed site-wide, not only with the raster. */
+(function(){
+  var s=document.createElement('style');s.id='fill-no-hero-grid';
+  s.textContent='.fh-phi::before{background-image:none!important}';
+  (document.head||document.documentElement).appendChild(s);
+})();
