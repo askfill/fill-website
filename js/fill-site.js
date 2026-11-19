@@ -823,3 +823,163 @@
   s.textContent='.fh-phi::before{background-image:none!important}';
   (document.head||document.documentElement).appendChild(s);
 })();
+
+/* ===== "One system" agent cards (homepage .fs-nf2) =====
+   One request walks through Fill's six agents: the six tiles become light liquid-glass agent cards (Source,
+   Control, Automate) with a live status tag, a blue dot runs out along the wire, the result comes back as a pill,
+   an "In Fill now" line narrates, and the panel below becomes a running record of this one request.
+   Chosen 19 Nov 2026 (option 06 of 10, artifact ScMXCDJF). The section's glow, ribs and headline stay as they are;
+   the click-a-tile panels are replaced.
+   STAGING ONLY until approved: runs on *.webflow.io, or anywhere with ?agentflow in the address. */
+(function(){
+  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]agentflow\b/.test(location.search))return;
+  var NS='http://www.w3.org/2000/svg',RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CSS=''
+  +'.fs-nf2 .fs-nf-d>:not(.fs-nf-glow):not(.fao-wrap){display:none!important}.fs-nf2 .fs-nf-ps{display:none!important}'
+  +'.fs-nf2 .fs-nf-d{max-width:760px}'
+  +'.fao-wrap{position:relative;width:100%;aspect-ratio:840/560;z-index:1}'
+  +'.fao-stage{position:absolute;left:0;top:0;width:840px;height:560px;transform-origin:0 0;--inv:1}'
+  +'.fao-stage *,.fao-rec *,.fao-stage *::before,.fao-rec *::before,.fao-stage *::after,.fao-rec *::after,.fao-rec{box-sizing:border-box}'
+  +'.fao-svg{position:absolute;inset:0;width:840px;height:560px;overflow:visible;pointer-events:none}'
+  +'.fao-nl{fill:none;stroke:rgba(17,17,17,.26);stroke-width:1.4;stroke-linecap:round;stroke-dasharray:1.5 5}'
+  +'.fao-na{fill:none;stroke:#3E63E6;stroke-width:2.25;stroke-linecap:round;opacity:0;transition:opacity .45s ease}.fao-na.on{opacity:1}.fao-na.was{opacity:.3}'
+  +'.fao-pk rect{fill:#111}.fao-pk text{fill:#fff;font:500 11px/1 "DM Sans",system-ui,sans-serif;text-anchor:middle}'
+  +'.fao-dh{fill:rgba(62,99,230,.5);filter:blur(3px)}.fao-dc{fill:#fff;stroke:#3E63E6;stroke-width:2}'
+  /* light liquid glass: frosted white, bright rim top-left, faint blue rim bottom-right, slow sheen */
+  +'.fao-lg{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.46) 55%,rgba(255,255,255,.6));-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);'
+  +'box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(255,255,255,.5),inset 0 0 18px rgba(255,255,255,.45),0 0 0 1px rgba(20,30,80,.07),0 18px 36px -18px rgba(10,20,70,.42),0 3px 8px -4px rgba(10,20,70,.14)}'
+  +'.fao-lg::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;pointer-events:none;background:linear-gradient(140deg,#fff,rgba(255,255,255,.35) 30%,rgba(255,255,255,0) 55%,rgba(143,166,242,.55) 100%);'
+  +'-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}'
+  +'.fao-lg::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(105deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.55) 48%,rgba(255,255,255,0) 58%) no-repeat;background-size:260% 100%;background-position:130% 0;animation:fao-sheen 10s ease-in-out infinite}'
+  +'@keyframes fao-sheen{0%,25%{background-position:130% 0}70%,100%{background-position:-70% 0}}'
+  +'.fao-card{position:absolute;width:156px;height:92px;border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;transform:scale(var(--inv));transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .4s}'
+  +'.fao-card>*{position:relative;z-index:1}'
+  +'.fao-ey{font:500 10px/1 "DM Sans",system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#8A8580}'
+  +'.fao-nm{display:flex;align-items:center;gap:7px;font:500 15px/1 "DM Sans",system-ui,sans-serif;color:#111}'
+  +'.fao-nm svg{width:17px;height:17px;fill:none;stroke:#1A1A1A;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}'
+  +'.fao-card.on{transform:scale(var(--inv)) translateY(-3px);box-shadow:inset 0 1px 0 #fff,inset 0 0 18px rgba(255,255,255,.45),0 0 0 2px #3E63E6,0 0 34px -4px rgba(62,99,230,.65),0 22px 40px -18px rgba(10,20,70,.45)}'
+  +'.fao-card.on.wait{box-shadow:inset 0 1px 0 #fff,inset 0 0 18px rgba(255,255,255,.45),0 0 0 2px #E6A23A,0 0 30px -6px rgba(230,162,58,.6),0 22px 40px -18px rgba(10,20,70,.45)}'
+  +'.fao-tag{display:inline-flex;align-items:center;gap:.5em;height:2em;max-width:100%;padding:0 .7em;border-radius:.62em;font:500 11.5px/1 "DM Sans",system-ui,sans-serif;overflow:hidden;white-space:nowrap;background:rgba(255,255,255,.6);color:#8A8580;box-shadow:inset 0 0 0 1px rgba(17,17,17,.07);transition:background .35s,color .35s,box-shadow .35s}'
+  +'.fao-tag .fao-tx{display:inline-block;overflow:hidden;text-overflow:ellipsis;animation:fao-in .35s cubic-bezier(.2,.7,.2,1)}'
+  +'@keyframes fao-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}'
+  +'.fao-tag.work{background:#fff;color:#1C34B4;box-shadow:inset 0 0 0 1px rgba(62,99,230,.4),0 6px 16px -8px rgba(62,99,230,.6)}'
+  +'.fao-tag.wait{background:#FFF1D6;color:#8A5A00;box-shadow:inset 0 0 0 1px rgba(230,162,58,.4)}'
+  +'.fao-tag.done{background:#E9EDFD;color:#1C34B4;box-shadow:inset 0 0 0 1px rgba(62,99,230,.14)}'
+  +'.fao-sp{width:.95em;height:.95em;border-radius:50%;border:.14em solid rgba(62,99,230,.25);border-top-color:#3E63E6;animation:fao-spin .8s linear infinite;flex:none}@keyframes fao-spin{to{transform:rotate(360deg)}}'
+  +'.fao-pu{width:.6em;height:.6em;border-radius:50%;background:#E6A23A;animation:fao-pulse 1.2s ease-in-out infinite;flex:none}@keyframes fao-pulse{50%{opacity:.35}}'
+  +'.fao-ck{width:1.18em;height:1.18em;border-radius:50%;background:#3E63E6;display:grid;place-items:center;flex:none}.fao-ck svg{width:.75em;height:.75em}'
+  +'.fao-ring{position:absolute;left:360px;top:210px;width:120px;height:120px;border-radius:30px;box-shadow:inset 0 0 0 1.5px rgba(62,99,230,.45);animation:fao-breathe 2.8s ease-in-out infinite}'
+  +'.fao-stage.busy .fao-ring{box-shadow:inset 0 0 0 1.5px rgba(62,99,230,.9),0 0 30px -6px rgba(62,99,230,.6);animation-duration:1.4s}'
+  +'@keyframes fao-breathe{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}'
+  +'.fao-hub{position:absolute;left:368px;top:218px;width:104px;height:104px;border-radius:26px;display:grid;place-items:center}.fao-hub svg{width:50px;height:50px;position:relative;z-index:1}'
+  +'.fao-sc{position:absolute;left:306px;top:344px;width:228px;padding:10px 13px 11px;border-radius:15px}'
+  +'.fao-k{position:relative;z-index:1;margin:0 0 5px;display:flex;align-items:center;gap:6px;font:500 10.5px/1 "DM Sans",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8A8580}'
+  +'.fao-k i{width:6px;height:6px;border-radius:50%;background:#C9C6C1;transition:background .3s,box-shadow .3s;flex:none}'
+  +'.fao-busy .fao-k i{background:#3E63E6;box-shadow:0 0 0 3px rgba(62,99,230,.18)}'
+  +'.fao-k em{margin-left:auto;font:400 10.5px/1 "DM Mono",ui-monospace,Menlo,monospace;font-style:normal;letter-spacing:0;text-transform:none;color:#8A8580}'
+  +'.fao-say{position:relative;z-index:1;min-height:34px}'
+  +'.fao-say span{display:block;font:500 13px/1.32 "DM Sans",system-ui,sans-serif;color:#111;transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}'
+  +'.fao-say span.out{position:absolute;left:0;right:0;top:0;opacity:0;transform:translateY(-6px)}.fao-say span.in{animation:fao-say .45s cubic-bezier(.2,.7,.2,1)}'
+  +'@keyframes fao-say{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}'
+  +'.fao-rec{position:relative;max-width:760px;margin:34px auto 0;padding:16px 22px 8px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.72))}'
+  +'.fao-rec>*{position:relative;z-index:1}'
+  +'.fao-ph{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid rgba(17,17,17,.08)}'
+  +'.fao-ph b{font-size:16px;font-weight:600;color:#111}.fao-ph span{font-size:13.5px;color:#8A8580}'
+  +'.fao-now{display:none;padding:12px 0 10px;border-bottom:1px solid rgba(17,17,17,.08)}'
+  +'.fao-rows{position:relative;height:126px;transition:height .45s cubic-bezier(.2,.7,.2,1);overflow:hidden}'
+  +'.fao-row{position:absolute;left:0;right:0;top:0;display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(17,17,17,.05);font-size:14.5px;line-height:1.4;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .4s}'
+  +'.fao-row time{font:400 13px/1.55 "DM Mono",ui-monospace,Menlo,monospace;color:#8A8580;flex:0 0 100px;font-variant-numeric:tabular-nums}'
+  +'.fao-row b{font-weight:500;color:#111;min-width:0}.fao-row.new{animation:fao-row .5s cubic-bezier(.2,.7,.2,1)}@keyframes fao-row{from{opacity:0}to{opacity:1}}'
+  +'.fao-row.gone{opacity:0}.fao-row.idle b{color:#8A8580;font-weight:400}'
+  +'@media (max-width:600px){.fao-sc{display:none}.fao-wrap{margin-top:24px}.fao-rec{margin-top:40px;padding:14px 16px 6px}.fao-now{display:block}.fao-row{font-size:13.5px;gap:10px}.fao-row time{flex-basis:82px;font-size:12px}.fao-ph{flex-direction:column;gap:2px}}'
+  +'@media (prefers-reduced-motion:reduce){.fao-stage *,.fao-rec *,.fao-stage *::after,.fao-rec::after{animation:none!important;transition:none!important}}';
+
+  var T=[null,
+    {n:'Consultants',ey:'Source',x:100,y:110,d:'M142,110 C250,110 250,300 308,300',rev:1,ic:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/>'},
+    {n:'Vendors',ey:'Source',x:100,y:300,d:'M142,300 H308',rev:1,ic:'<path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>'},
+    {n:'Contracts',ey:'Control',x:100,y:490,d:'M142,490 C250,490 250,300 308,300',rev:1,ic:'<path d="m18.226 5.226-2.52-2.52A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.351"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/>'},
+    {n:'Compliance',ey:'Control',x:620,y:110,d:'M412,300 C470,300 470,110 578,110',ic:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'},
+    {n:'Invoices',ey:'Automate',x:620,y:300,d:'M412,300 H578',ic:'<path d="M13 16H8"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M4 3h16v18l-2.7-1.5L14.7 21 12 19.5 9.3 21l-2.6-1.5L4 21z"/>'},
+    {n:'Insights',ey:'Automate',x:620,y:490,d:'M412,300 C470,300 470,490 578,490',ic:'<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>'}
+  ];
+  var STEPS=[
+    {i:2,say:'New request: senior backend developer, 6 months',work:'Asking 12 suppliers',done:'5 offers in',back:'5 offers',log:['3 Nov 09:02','Request sent to the 12 suppliers you already use'],ms:1800},
+    {i:1,say:'Checking 5 offers against your usual rates',work:'Checking 5 offers',wait:'Elin’s pick',waitSay:'Shortlist of 3 is with Elin Berg, the hiring manager',waitLog:['3 Nov 16:40','Shortlist of 3 sent to Elin Berg'],done:'Marie picked',doneSay:'Elin picked Marie Flossberg from Knowit',back:'Marie F.',log:['4 Nov 10:14','Elin picked Marie Flossberg, Knowit'],ms:1600},
+    {i:4,say:'Checking Knowit before Marie starts',work:'Checking Knowit',done:'All checked',back:'Checked',log:['4 Nov 10:15','Knowit checked before the start date'],ms:1500},
+    {i:3,say:'Contract drafted from the request',work:'Drafting contract',done:'Signed',back:'Signed',log:['5 Nov 14:05','Contract signed at 1 040 SEK/h, as requested'],ms:1700},
+    {i:5,say:'First invoice in from Knowit',work:'Matching hours',done:'168 h matched',back:'Invoice 2214',log:['8 Dec 08:12','Invoice 2214 matched to 168 approved hours'],ms:1700},
+    {i:6,say:'Spend view updated from the same record',work:'Updating spend',done:'Spend +4 %',back:'Spend +4 %',log:['8 Dec 08:13','Spend view updated, nothing typed twice'],ms:1300}
+  ];
+  var END='Done. Agents did the admin, Elin made the decision.';
+  var CK='<span class="fao-ck"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 5.2 4.2 7.1 7.9 3.1"/></svg></span>';
+  var BLOOM='<svg viewBox="330 270 60 60" aria-hidden="true"><g fill="#111"><circle cx="360" cy="281.2" r="9.5"/><circle cx="376.2" cy="290.6" r="9.5"/><circle cx="376.2" cy="309.4" r="9.5"/><circle cx="360" cy="318.8" r="9.5"/><circle cx="343.8" cy="309.4" r="9.5"/><circle cx="343.8" cy="290.6" r="9.5"/><circle cx="360" cy="300" r="9.5"/></g></svg>';
+  var SAY='<p class="fao-k"><i></i>In Fill now<em>R-1042</em></p><div class="fao-say" data-fao-say><span>Waiting for work</span></div>';
+
+  function start(){
+    var sec=document.querySelector('.fs-nf2'),d=sec&&sec.querySelector('.fs-nf-d'),ps=sec&&sec.querySelector('.fs-nf-ps');
+    if(!d||!ps||sec.querySelector('.fao-wrap'))return;
+    var st=document.createElement('style');st.id='fill-agent-flow-css';st.textContent=CSS;document.head.appendChild(st);
+    var wrap=document.createElement('div');wrap.className='fao-wrap';
+    wrap.innerHTML='<div class="fao-stage"><svg class="fao-svg" viewBox="-60 30 840 560" aria-hidden="true"><g class="fao-w"></g><g><g class="fao-dot" opacity="0"><circle class="fao-dh" r="9"/><circle class="fao-dc" r="4"/></g><g class="fao-pk" opacity="0"><rect x="-30" y="-11" width="60" height="22" rx="11"/><text x="0" y="4"></text></g></g></svg>'
+      +'<div class="fao-cards"></div><div class="fao-ring"></div><div class="fao-hub fao-lg">'+BLOOM+'</div><div class="fao-sc fao-lg" aria-live="polite">'+SAY+'</div></div>';
+    d.appendChild(wrap);
+    var rec=document.createElement('div');rec.className='fao-rec fao-lg';
+    rec.innerHTML='<div class="fao-ph"><b>This request in Fill</b><span>One request, from the ask to the invoice.</span></div><div class="fao-now">'+SAY+'</div><div class="fao-rows"></div>';
+    ps.parentNode.insertBefore(rec,ps.nextSibling);
+    var stage=wrap.querySelector('.fao-stage'),wires=wrap.querySelector('.fao-w'),cardsEl=wrap.querySelector('.fao-cards'),rowsEl=rec.querySelector('.fao-rows');
+    function el(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e;}
+    for(var i=1;i<=6;i++){var t=T[i];
+      t.base=el('path',{'class':'fao-nl',d:t.d},wires);t.act=el('path',{'class':'fao-na',d:t.d},wires);t.len=t.base.getTotalLength();
+      t.el=document.createElement('div');t.el.className='fao-card fao-lg';t.el.style.top=(t.y-30-46)+'px';
+      t.el.innerHTML='<span class="fao-ey"></span><span class="fao-nm"><svg viewBox="0 0 24 24">'+t.ic+'</svg><b style="font-weight:500"></b></span><span class="fao-tag"></span>';
+      t.el.querySelector('.fao-ey').textContent=t.ey;t.el.querySelector('.fao-nm b').textContent=t.n;cardsEl.appendChild(t.el);t.tag=t.el.querySelector('.fao-tag');}
+    /* scale the 840 x 560 drawing to the column; on phones the cards grow as far as the page gutter allows, with their inner edge kept on the wire's end */
+    function fit(){var k=wrap.clientWidth/840;if(!k)return;stage.style.transform='scale('+k+')';
+      var inv=Math.min(1.6,(206+14/k)/156,Math.max(1,0.8/k));stage.style.setProperty('--inv',inv.toFixed(3));
+      for(var j=1;j<=6;j++){var c=T[j],cx=c.x<360?206-78*inv:634+78*inv;c.el.style.left=(cx-78).toFixed(1)+'px';}layout();}
+    function setTag(i,s,tx){var t=T[i],lead=s==='work'?'<span class="fao-sp"></span>':s==='wait'?'<span class="fao-pu"></span>':s==='done'?CK:'';
+      t.tag.className='fao-tag '+(s==='idle'?'':s);t.tag.innerHTML=lead+'<span class="fao-tx"></span>';t.tag.querySelector('.fao-tx').textContent=tx;}
+    var sayEls=[].slice.call(sec.querySelectorAll('[data-fao-say]'));
+    function say(text){sayEls.forEach(function(b){var c=b.querySelector('span:not(.out)');if(c&&c.textContent===text)return;if(c){c.classList.add('out');setTimeout(function(){c.remove();},450);}var s=document.createElement('span');s.className='in';s.textContent=text;b.appendChild(s);});}
+    function busy(on){stage.classList.toggle('busy',on);sec.classList.toggle('fao-busy',on);}
+    var rows=[];
+    function live(){return rows.filter(function(r){return !r.classList.contains('gone');});}
+    function layout(){var y=0;live().forEach(function(r){r.style.transform='translateY('+y+'px)';y+=r.offsetHeight;});rowsEl.style.height=Math.max(y,42)+'px';}
+    function addRow(time,text,idle){
+      rows.filter(function(r){return r.classList.contains('idle');}).forEach(function(r){r.classList.add('gone');setTimeout(function(){r.remove();rows.splice(rows.indexOf(r),1);layout();},400);});
+      var r=document.createElement('div');r.className='fao-row new'+(idle?' idle':'');var tm=document.createElement('time');tm.textContent=time;var b=document.createElement('b');b.textContent=text;r.appendChild(tm);r.appendChild(b);
+      var y=0;live().forEach(function(x){y+=x.offsetHeight;});rowsEl.appendChild(r);rows.push(r);r.style.transition='none';r.style.transform='translateY('+y+'px)';r.offsetHeight;r.style.transition='';
+      var v=live();while(v.length>3){var o=v.shift();o.classList.add('gone');o.style.transform='translateY(-20px)';(function(q){setTimeout(function(){q.remove();rows.splice(rows.indexOf(q),1);},500);})(o);}
+      layout();}
+    function clearRows(){rows.forEach(function(r){r.remove();});rows=[];addRow('','Waiting for the next request',true);}
+    fit();if('ResizeObserver' in window)new ResizeObserver(fit).observe(wrap);else addEventListener('resize',fit);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
+
+    var dot=wrap.querySelector('.fao-dot'),pk=wrap.querySelector('.fao-pk'),pkR=pk.querySelector('rect'),pkT=pk.querySelector('text');
+    function at(i,s){var t=T[i];return t.base.getPointAtLength(t.len*(t.rev?1-s:s));}
+    function ease(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+    /* the clock runs only while the section is on screen and the tab is visible */
+    var on=false;if('IntersectionObserver' in window)new IntersectionObserver(function(es){on=es[0].isIntersecting;}).observe(wrap);else on=true;
+    function frame(){return new Promise(function(r){requestAnimationFrame(r);});}
+    function wait(ms){var last=performance.now(),t=0;return (function loop(){return frame().then(function(){var n=performance.now();if(on&&!document.hidden)t+=Math.min(n-last,100);last=n;return t<ms?loop():null;});})();}
+    function travel(i,a,b,ms,node){node.setAttribute('opacity','1');var last=performance.now(),t=0;
+      return (function loop(){return frame().then(function(){var n=performance.now();if(on&&!document.hidden)t+=Math.min(n-last,100);last=n;var p=at(i,a+(b-a)*ease(Math.min(1,t/ms)));node.setAttribute('transform','translate('+p.x.toFixed(1)+','+p.y.toFixed(1)+')');if(t<ms)return loop();node.setAttribute('opacity','0');});})();}
+    function packet(tx){pkT.textContent=tx;var w=Math.ceil(pkT.getComputedTextLength())+24;pkR.setAttribute('x',-w/2);pkR.setAttribute('width',w);}
+    function reset(){for(var i=1;i<=6;i++){setTag(i,'idle','Idle');T[i].act.classList.remove('on','was');T[i].el.classList.remove('on','wait');}busy(false);say('Waiting for work');clearRows();}
+    if(RM){reset();STEPS.forEach(function(s){setTag(s.i,'done',s.done);T[s.i].act.classList.add('was');});say(END);rows.forEach(function(r){r.remove();});rows=[];STEPS.slice(-3).forEach(function(s){addRow(s.log[0],s.log[1]);});return;}
+    function step(n){
+      if(n>=STEPS.length){busy(false);say(END);wait(4200).then(function(){run();});return;}
+      var s=STEPS[n],t=T[s.i];say(s.say);
+      return wait(500).then(function(){t.act.classList.add('on');return travel(s.i,0,1,750,dot);})
+        .then(function(){t.el.classList.add('on');setTag(s.i,'work',s.work);return wait(s.ms);})
+        .then(function(){if(!s.wait)return;setTag(s.i,'wait',s.wait);t.el.classList.add('wait');say(s.waitSay);addRow(s.waitLog[0],s.waitLog[1]);busy(false);
+          return wait(2100).then(function(){busy(true);say(s.doneSay);});})
+        .then(function(){setTag(s.i,'done',s.done);t.el.classList.remove('wait');addRow(s.log[0],s.log[1]);packet(s.back);return travel(s.i,1,0,850,pk);})
+        .then(function(){t.act.classList.remove('on');t.act.classList.add('was');t.el.classList.remove('on');return wait(250);})
+        .then(function(){return step(n+1);});
+    }
+    function run(){reset();return wait(1100).then(function(){busy(true);return step(0);});}
+    run();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
