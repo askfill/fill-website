@@ -733,14 +733,18 @@
   }
   var css=document.createElement('style');css.id='fill-raster-css';var n=0;
   /* the faint square grids behind the dark heroes (Agents hero, Agents rule-card stage) would cross the ribs, so they go wherever the raster runs */
-  css.textContent='.op-stage::before,.agf-grid{display:none!important}';document.head.appendChild(css);
+  css.textContent='.op-stage::before,.agf-grid{display:none!important}'
+  /* Product three-jobs cards: the Control and Automate glows sat behind their windows, so the ribs had no colour to show.
+     Control rises behind its window in sundown blue; Automate rises from the lower left, under the text. */
+    +'.dr-c::before{top:-60px!important;left:-60px!important;width:860px!important;height:640px!important;background:radial-gradient(50% 50%,rgba(62,99,230,.5) 0%,rgba(143,166,242,.38) 45%,rgba(217,226,251,0) 75%)!important}'
+    +'.dr-a::before{top:40px!important;left:80px!important;width:1100px!important;height:700px!important}';document.head.appendChild(css);
   function scan(){
     var rules='';
     [].forEach.call(document.querySelectorAll('body *'),function(el){
       if(el.closest('svg'))return;
       [null,'::before','::after'].forEach(function(pe){
         var key='fr'+(pe?pe.replace(/:/g,''):'');if(el.hasAttribute('data-'+key))return;
-        var cs=getComputedStyle(el,pe);if(cs.backgroundImage.indexOf('radial-gradient')<0)return;
+        var cs=getComputedStyle(el,pe),bi=cs.backgroundImage;if(bi.indexOf('radial-gradient')<0&&!(/url\(/.test(bi)&&/blur/.test(cs.filter)))return; /* glows, and blurred photos used as light (Product Source card) */
         if(pe&&(cs.content==='none'||cs.content==='normal'))return;
         var w=pe?parseFloat(cs.width):el.offsetWidth,h=pe?parseFloat(cs.height):el.offsetHeight;
         if(!(w>=300&&h>=200))return;
