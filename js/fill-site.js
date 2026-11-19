@@ -779,6 +779,16 @@
     el.style.height=H+'px';
     var WK=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(/Safari\//.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox|Android/.test(ua));
     if(WK&&el.offsetWidth*H*dpr*dpr>16e6)el.style.filter='none';
+    /* on landscape screens the sun rises from the bottom edge of the screen (behind the window) instead of sitting on
+       the window: the hero box is 900 px tall, centred and scaled, so its bottom edge in box px is 450 - stage/2/scale.
+       Portrait phones keep it on the window, where the window would otherwise hide it. */
+    function place(){
+      var bx=el.closest('.op-box'),st=el.closest('.op-stage');if(!bx||!st)return;
+      if(innerWidth<=innerHeight){el.style.bottom='';return;}
+      var m=getComputedStyle(bx).transform,sc=1;if(m&&m!=='none'){sc=parseFloat(m.split('(')[1])||1;}
+      el.style.bottom=(450-st.offsetHeight/2/sc).toFixed(1)+'px';
+    }
+    place();var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(place,150);});
     if(RM)return;
     el.style.backgroundImage='radial-gradient(closest-side,rgba(143,166,242,.6),rgba(143,166,242,0)),radial-gradient(closest-side,rgba(28,52,180,.58),rgba(28,52,180,0)),'+base;
     el.style.backgroundRepeat='no-repeat';
