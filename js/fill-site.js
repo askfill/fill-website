@@ -378,7 +378,7 @@
   /* Pass 19: glass frame round every product window. Bar windows put the title bar on the glass; the rest get a 10 px glass rim. */
   function glassFrames(){
     var path=location.pathname.replace(/\/+$/,'')||'/';
-    if(!/^\/(source|control|agents|product)?(-sundown)?$/.test(path)&&path!=='/')return;
+    if(!/^\/(source|control|agents|product)?(-sundown)?$/.test(path)&&!/^\/size\/[a-z-]+$/.test(path)&&path!=='/')return;
     var G={dawn:'radial-gradient(50% 50% at 50% 50%,#D9663F 0%,#E98F6A 22%,#E6B3C2 42%,#D5CCF3 62%,rgba(246,241,236,0) 100%)',
       day:'radial-gradient(50% 50% at 50% 50%,#2F6FD0 0%,#5E98E6 22%,#9CC3F2 42%,#C9DDF7 62%,rgba(243,245,248,0) 100%)',
       night:'radial-gradient(50% 50% at 50% 50%,#8E8BFF 0%,#5552D8 24%,#2A2596 46%,rgba(10,10,10,0) 100%)',
@@ -388,8 +388,8 @@
     function inner(h){var hr=h.getBoundingClientRect(),q=[h],k;for(var d=0;d<4;d++){var nq=[];for(var i=0;i<q.length;i++)for(var j=0;j<q[i].children.length;j++){k=q[i].children[j];var r=k.getBoundingClientRect(),rad=parseFloat(getComputedStyle(k).borderTopLeftRadius);if(rad>0&&Math.abs(r.width-hr.width)<4&&Math.abs(r.height-hr.height)<4)return rad;nq.push(k);}q=nq;}return parseFloat(getComputedStyle(h).borderTopLeftRadius)||14;}
     document.querySelectorAll('.fl-v>.cw,.ftb-tw,.pl-v>.cw').forEach(function(w){if(w.classList.contains('gf-bar'))return;w.classList.add('gf-bar');if(w.classList.contains('cw'))w.style.setProperty('--gfb','#F9F9FA');
       var v=w.parentElement;if(v.classList.contains('fl-v')&&!v.classList.contains('gf-gl')){v.classList.add('gf-gl');v.style.setProperty('--gfg',G[glow]);}});
-    document.querySelectorAll('.cl-hwin,.fl-hwin,.op-win,.chp-win,.fs-nf-p').forEach(function(h){if(h.classList.contains('gf')||h.closest('.gc-on,.ph3-on'))return;
-      h.classList.add('gf');h.style.setProperty('--gfr',Math.round(inner(h))+'px');var sz=function(){var w=h.getBoundingClientRect().width;if(!w||!h.offsetWidth)return;var k=w/h.offsetWidth;h.style.setProperty('--gfi',Math.min(40,10/k).toFixed(1)+'px');};sz();addEventListener('resize',sz);h.addEventListener('animationend',sz);setTimeout(sz,1500);setTimeout(sz,4000);if(dark(h.parentElement))h.classList.add('gf-n');
+    document.querySelectorAll('.cl-hwin,.fl-hwin,.op-win,.chp-win,.fs-nf-p,.fh-cd').forEach(function(h){if(h.classList.contains('gf')||h.closest('.gc-on,.ph3-on'))return;
+      h.classList.add('gf');if(getComputedStyle(h).position==='static')h.style.position='relative';h.style.setProperty('--gfr',Math.round(inner(h))+'px');var sz=function(){var w=h.getBoundingClientRect().width;if(!w||!h.offsetWidth)return;var k=w/h.offsetWidth;h.style.setProperty('--gfi',Math.min(40,10/k).toFixed(1)+'px');};sz();addEventListener('resize',sz);h.addEventListener('animationend',sz);setTimeout(sz,1500);setTimeout(sz,4000);if(dark(h.parentElement))h.classList.add('gf-n');
       if(h.classList.contains('op-win')){h.classList.add('gf-glw');h.style.setProperty('--gfg',G[dark(h.parentElement)?'night':glow]);}});
     document.querySelectorAll('.fw-win').forEach(function(w){if(w.previousElementSibling&&w.previousElementSibling.classList.contains('gf-rim'))return;
       var r=document.createElement('div');r.className='gf-rim'+(dark(w.parentElement)?' gf-n':'');r.setAttribute('aria-hidden','true');w.parentNode.insertBefore(r,w);
