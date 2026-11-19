@@ -911,7 +911,7 @@
   ];
   var END='Done. Agents did the admin, Elin made the decision.';
   var CK='<span class="fao-ck"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.2 5.2 4.2 7.1 7.9 3.1"/></svg></span>';
-  var BLOOM='<svg viewBox="330 270 60 60" aria-hidden="true"><g fill="#111"><circle cx="360" cy="281.2" r="9.5"/><circle cx="376.2" cy="290.6" r="9.5"/><circle cx="376.2" cy="309.4" r="9.5"/><circle cx="360" cy="318.8" r="9.5"/><circle cx="343.8" cy="309.4" r="9.5"/><circle cx="343.8" cy="290.6" r="9.5"/><circle cx="360" cy="300" r="9.5"/></g></svg>';
+  var BLOOM='<svg viewBox="63.5 63 345 345" aria-hidden="true"><g fill="#111"><circle cx="236" cy="136.5" r="49.5"/><circle cx="323.5" cy="185.5" r="49.5"/><circle cx="323.5" cy="286" r="49.5"/><circle cx="236" cy="334.5" r="49.5"/><circle cx="148.5" cy="286" r="49.5"/><circle cx="148.5" cy="185.5" r="49.5"/></g></svg>'; /* the Fill mark: six dots round an open centre, as in the nav logo */
   var SAY='<p class="fao-k"><i></i>In Fill now<em>R-1042</em></p><div class="fao-say" data-fao-say><span>Waiting for work</span></div>';
 
   function start(){
