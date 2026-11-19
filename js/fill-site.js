@@ -707,9 +707,8 @@
    the blur, so the ribs are crisp, even and about 10 px on screen whatever the glow's size.
    Glows are judged by their layout size (a glow shrunk by a transform, like the homepage sun on a phone, still
    counts); a glow shrunk below half size gets wider ribs so they still read.
-   STAGING ONLY until approved: runs on *.webflow.io, or anywhere with ?raster in the address. */
+   Live on every page since 19 Nov 2026. */
 (function(){
-  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
   var RIB=16,SCALE=56,HI=0.05,SH=0.12,NS='http://www.w3.org/2000/svg',made={},holder=null;
   var ua=navigator.userAgent,WK=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(/Safari\//.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox|Android/.test(ua));
   function enc(s){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
@@ -771,9 +770,8 @@
    The homepage sun (.og) keeps its scroll animation (transform); here only the light inside it moves, so the ribs
    stay still while the sundown wanders behind them: the base gradient rises and settles within its lower range (so the deep core never slips behind the window and the colour never fades), a pale haze and a deeper
    core drift on their own slow rhythms (19-57 s). About 30 updates a second, paused off screen, in a hidden tab
-   and for reduced motion. The sun is made taller (see below). STAGING ONLY until approved (same gate as the raster). */
+   and for reduced motion. The sun is made taller (see below). Live since 19 Nov 2026. */
 (function(){
-  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function start(){
     var el=document.querySelector('.op-box .og')||document.querySelector('.og');if(!el||el.getAttribute('data-drift'))return;
