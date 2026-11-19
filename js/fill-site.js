@@ -697,3 +697,48 @@
   }
   ready(function(){[navScrolled,hubHits,gaps,agentCheck,glassCarousel,ruleCard,productList,productHero,cmpHub,compareLinks,cmpMotion,srcComposer,readSk,srcHero,heroType,glassFrames,tmsSsab,customerLogos,tmsLinks,askAi,privacyRow,cwReplay,sharpImgs].forEach(function(f){try{f();}catch(e){}});setTimeout(function(){try{sharpImgs();glassFrames();customerLogos();tmsLinks();privacyRow();}catch(e){}},1200);addEventListener('load',function(){try{sharpImgs();}catch(e){}});});
 })();
+/* ===== raster (reeded glass on the sundown glows) =====
+   Every large radial-gradient glow is seen through vertical glass ribs: the glow is blurred as before, then a
+   repeating ramp tile refracts it rib by rib (SVG displacement), and a faint edge per rib (shadow-weighted, drawn
+   only where the glow has colour). Nothing is laid over the colour, so every glow keeps its full strength.
+   STAGING ONLY until approved: runs on *.webflow.io, or anywhere with ?raster in the address. */
+(function(){
+  if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
+  var RIB=16,SCALE=56,HI=0.10,SH=0.14,NS='http://www.w3.org/2000/svg';
+  function enc(s){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
+  function tile(stops){return enc("<svg xmlns='http://www.w3.org/2000/svg' width='"+RIB+"' height='"+RIB+"'><defs><linearGradient id='g' x1='0' x2='1'>"+stops+"</linearGradient></defs><rect width='"+RIB+"' height='"+RIB+"' fill='url(#g)'/></svg>");}
+  function filterDef(){
+    if(document.getElementById('fill-reed'))return;
+    var ramp=tile("<stop offset='0' stop-color='rgb(0,128,0)'/><stop offset='1' stop-color='rgb(255,128,0)'/>");
+    var edge=tile("<stop offset='0' stop-color='#fff' stop-opacity='"+HI+"'/><stop offset='0.18' stop-color='#fff' stop-opacity='0'/><stop offset='0.7' stop-color='#000' stop-opacity='0'/><stop offset='1' stop-color='#000' stop-opacity='"+SH+"'/>");
+    var svg=document.createElementNS(NS,'svg');svg.setAttribute('width','0');svg.setAttribute('height','0');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');svg.style.position='absolute';
+    svg.innerHTML='<filter id="fill-reed" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">'
+      +'<feImage href="'+ramp+'" x="0" y="0" width="'+RIB+'" height="'+RIB+'" preserveAspectRatio="none" result="t"/><feTile in="t" result="map"/>'
+      +'<feDisplacementMap in="SourceGraphic" in2="map" scale="'+SCALE+'" xChannelSelector="R" yChannelSelector="G" result="d"/>'
+      +'<feImage href="'+edge+'" x="0" y="0" width="'+RIB+'" height="'+RIB+'" preserveAspectRatio="none" result="e0"/><feTile in="e0" result="e1"/>'
+      +'<feComposite in="e1" in2="d" operator="atop"/></filter>';
+    document.body.appendChild(svg);
+  }
+  var css=document.createElement('style');css.id='fill-raster-css';var n=0;
+  function scan(){
+    filterDef();
+    var rules='';
+    [].forEach.call(document.querySelectorAll('body *'),function(el){
+      if(el.closest('svg'))return;
+      [null,'::before','::after'].forEach(function(pe){
+        var key='fr'+(pe?pe.replace(/:/g,''):'');if(el.hasAttribute('data-'+key))return;
+        var cs=getComputedStyle(el,pe);if(cs.backgroundImage.indexOf('radial-gradient')<0)return;
+        if(pe&&(cs.content==='none'||cs.content==='normal'))return;
+        var r=el.getBoundingClientRect(),w=pe?(parseFloat(cs.width)||r.width):r.width,h=pe?(parseFloat(cs.height)||r.height):r.height;
+        if(w<300||h<200)return;
+        var base=cs.filter.replace(/\s*url\([^)]*\)/g,'').trim();
+        n++;el.setAttribute('data-'+key,n);
+        rules+='[data-'+key+'="'+n+'"]'+(pe||'')+'{filter:'+(base&&base!=='none'?base+' ':'')+'url(#fill-reed)!important}';
+      });
+    });
+    if(rules){css.textContent+=rules;if(!css.parentNode)document.head.appendChild(css);}
+  }
+  function go(){try{scan();}catch(e){}}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+  setTimeout(go,1300);addEventListener('load',function(){setTimeout(go,300);});
+})();
