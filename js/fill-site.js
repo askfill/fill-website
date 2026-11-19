@@ -764,14 +764,22 @@
    The homepage sun (.og) keeps its scroll animation (transform); here only the light inside it moves, so the ribs
    stay still while the sundown wanders behind them: the base gradient rises and settles within its lower range (so the deep core never slips behind the window and the colour never fades), a pale haze and a deeper
    core drift on their own slow rhythms (19-57 s). About 30 updates a second, paused off screen, in a hidden tab
-   and for reduced motion. STAGING ONLY until approved (same gate as the raster). */
+   and for reduced motion. The sun is made taller (see below). STAGING ONLY until approved (same gate as the raster). */
 (function(){
   if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]raster\b/.test(location.search))return;
-  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function start(){
     var el=document.querySelector('.op-box .og')||document.querySelector('.og');if(!el||el.getAttribute('data-drift'))return;
     var base=getComputedStyle(el).backgroundImage;if(base.indexOf('radial-gradient')<0)return;
     el.setAttribute('data-drift','1');
+    /* taller sun (900 -> 1500 px, grows upward from its bottom edge): the blue reaches up behind the headline
+       instead of sitting as a band on the window. WebKit drops a filtered layer past ~16.7M device px, and its
+       ribs are a mask that needs no blur, so the blur goes there when the layer would be too big. */
+    var H=1500,dpr=window.devicePixelRatio||1,ua=navigator.userAgent;
+    el.style.height=H+'px';
+    var WK=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(/Safari\//.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox|Android/.test(ua));
+    if(WK&&el.offsetWidth*H*dpr*dpr>16e6)el.style.filter='none';
+    if(RM)return;
     el.style.backgroundImage='radial-gradient(closest-side,rgba(143,166,242,.6),rgba(143,166,242,0)),radial-gradient(closest-side,rgba(28,52,180,.58),rgba(28,52,180,0)),'+base;
     el.style.backgroundRepeat='no-repeat';
     var on=true,last=0,t0=performance.now();
