@@ -1081,7 +1081,7 @@
   if(!/^\/job-board\//.test(location.pathname))return;
   if(!/\.webflow\.io$/.test(location.hostname)&&!/[?&]apply\b/.test(location.search))return;
   var APPLY_URL='';
-  var MAX=10*1024*1024,KEEP='12 months';
+  var MAX=10*1024*1024,KEEP='24 months';
   var CSS=''
   +'.job-bottom-cta.ja-on{display:block!important;text-align:left}'
   +'.ja-on .job-bottom-cta-title{text-align:center}'
